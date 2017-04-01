@@ -1,7 +1,8 @@
 package name.yalsooni.genius.common.definition.property;
 
-import genius.rulebreaker.execute.GeniusExecutor;
-import name.yalsooni.common.util.support.PropertyReader;
+
+import name.yalsooni.genius.common.execute.GeniusExecutor;
+import name.yalsooni.genius.util.reader.PropertyReader;
 
 /**
  * 지니어스 속성 값

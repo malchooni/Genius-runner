@@ -1,8 +1,9 @@
 package name.yalsooni.genius.test;
 
-import genius.rulebreaker.definition.Service;
-import genius.rulebreaker.definition.annotation.Delegate;
-import genius.rulebreaker.definition.annotation.Entry;
+
+import name.yalsooni.genius.common.definition.Service;
+import name.yalsooni.genius.common.definition.annotation.Delegate;
+import name.yalsooni.genius.common.definition.annotation.Entry;
 
 /**
  * Genius 2.0 Math Util Service

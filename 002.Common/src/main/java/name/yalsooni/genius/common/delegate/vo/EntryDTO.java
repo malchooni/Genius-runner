@@ -1,6 +1,7 @@
 package name.yalsooni.genius.common.delegate.vo;
 
-import genius.rulebreaker.exception.InvalidParameterValueTypeException;
+
+import name.yalsooni.genius.common.exception.InvalidParameterValueTypeException;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class EntryDTO {
      * @param parameterValues
      * @throws InvalidParameterValueTypeException
      */
-    public void setParameterValues(String parameterValues) throws InvalidParameterValueTypeException{
+    public void setParameterValues(String parameterValues) throws InvalidParameterValueTypeException {
 
         List<Object> result = new ArrayList<Object>();
         String[] values = parameterValues.split(",");
