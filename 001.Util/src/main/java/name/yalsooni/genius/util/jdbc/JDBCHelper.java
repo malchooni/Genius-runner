@@ -1,6 +1,8 @@
 package name.yalsooni.genius.util.jdbc;
 
-import genius.rulebreaker.util.jdbc.vo.JDBCConnectInfo;
+
+
+import name.yalsooni.genius.util.jdbc.vo.JDBCConnectInfo;
 
 import java.sql.*;
 import java.util.*;

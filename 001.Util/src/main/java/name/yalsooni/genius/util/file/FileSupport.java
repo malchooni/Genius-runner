@@ -7,11 +7,11 @@ import java.io.*;
  * @author yoon-iljoong
  *
  */
-public class FileData {
+public class FileSupport {
 
 	/**
 	 * 파일의 데이터를 String으로 반환한다.
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 * @throws IOException, OutOfMemoryError
