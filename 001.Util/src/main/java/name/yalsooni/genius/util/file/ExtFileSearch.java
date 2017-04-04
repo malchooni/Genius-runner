@@ -1,6 +1,6 @@
 package name.yalsooni.genius.util.file;
 
-import name.yalsooni.common.util.file.filter.FileExtNameFilter;
+import name.yalsooni.genius.util.file.filter.FileExtNameFilter;
 
 import java.io.File;
 import java.util.ArrayList;
