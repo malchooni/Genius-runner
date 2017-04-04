@@ -1,15 +1,15 @@
 package name.yalsooni.genius.common.execute;
 
-import genius.rulebreaker.definition.ErrCode;
-import genius.rulebreaker.definition.property.GeniusProperties;
-import genius.rulebreaker.delegate.helper.GeniusDelegateEjector;
-import genius.rulebreaker.delegate.vo.DelegateDTO;
-import genius.rulebreaker.delegate.vo.EntryDTO;
-import genius.rulebreaker.exception.InvalidParameterValueTypeException;
-import genius.rulebreaker.inout.input.InputManager;
-import genius.rulebreaker.inout.output.OutputManager;
-import genius.rulebreaker.repository.DelegateList;
-import genius.rulebreaker.util.Log;
+import name.yalsooni.genius.common.definition.ErrCode;
+import name.yalsooni.genius.common.definition.property.GeniusProperties;
+import name.yalsooni.genius.common.delegate.helper.GeniusDelegateEjector;
+import name.yalsooni.genius.common.delegate.vo.DelegateDTO;
+import name.yalsooni.genius.common.delegate.vo.EntryDTO;
+import name.yalsooni.genius.common.exception.InvalidParameterValueTypeException;
+import name.yalsooni.genius.common.inout.input.InputManager;
+import name.yalsooni.genius.common.inout.output.OutputManager;
+import name.yalsooni.genius.common.repository.DelegateList;
+import name.yalsooni.genius.util.Log;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;

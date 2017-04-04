@@ -1,6 +1,6 @@
 package name.yalsooni.genius.common.repository;
 
-import genius.rulebreaker.delegate.vo.DelegateDTO;
+import name.yalsooni.genius.common.delegate.vo.DelegateDTO;
 
 import java.util.HashMap;
 import java.util.Map;

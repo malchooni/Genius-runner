@@ -1,6 +1,6 @@
 package name.yalsooni.genius.common.exception;
 
-import genius.rulebreaker.definition.ErrCode;
+import name.yalsooni.genius.common.definition.ErrCode;
 
 /**
  * 입력받은 데이터가 특정 데이터 타입으로 변환에 실패 했을 때의 예외.

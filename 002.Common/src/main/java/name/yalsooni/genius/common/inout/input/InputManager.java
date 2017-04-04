@@ -1,6 +1,7 @@
 package name.yalsooni.genius.common.inout.input;
 
-import genius.rulebreaker.util.Log;
+
+import name.yalsooni.genius.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;

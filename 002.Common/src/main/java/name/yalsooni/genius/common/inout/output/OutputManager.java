@@ -1,9 +1,9 @@
 package name.yalsooni.genius.common.inout.output;
 
-import genius.rulebreaker.delegate.vo.DelegateDTO;
-import genius.rulebreaker.delegate.vo.EntryDTO;
-import genius.rulebreaker.repository.DelegateList;
-import genius.rulebreaker.util.Log;
+import name.yalsooni.genius.common.delegate.vo.DelegateDTO;
+import name.yalsooni.genius.common.delegate.vo.EntryDTO;
+import name.yalsooni.genius.common.repository.DelegateList;
+import name.yalsooni.genius.util.Log;
 
 /**
  * 화면에 출력
