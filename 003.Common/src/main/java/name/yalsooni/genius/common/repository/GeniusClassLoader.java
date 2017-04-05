@@ -1,5 +1,7 @@
 package name.yalsooni.genius.common.repository;
 
+import name.yalsooni.genius.boothelper.repository.BootHelperRepository;
+
 import java.net.URL;
 import java.net.URLClassLoader;
 
