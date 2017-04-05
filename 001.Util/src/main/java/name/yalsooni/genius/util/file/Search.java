@@ -22,7 +22,7 @@ public abstract class Search {
 
 		File[] allFiles = path.listFiles();
 
-		if (allFiles == null && 1 > allFiles.length) return;
+		if (allFiles == null || 1 > allFiles.length) return;
 
 		searchFile(result, path, filter);
 
