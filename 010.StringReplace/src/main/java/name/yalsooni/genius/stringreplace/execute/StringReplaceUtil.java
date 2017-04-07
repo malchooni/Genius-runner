@@ -16,7 +16,7 @@ public class StringReplaceUtil {
 
     @Entry
     public void replaceDefault(){
-        this.replace("../property/011_stringreplace.properties");
+        this.replace("../property/010_stringreplace.properties");
     }
 
     @Entry
