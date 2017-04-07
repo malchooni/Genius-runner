@@ -124,6 +124,7 @@ public class GeniusExecutor {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (InvalidParameterValueTypeException e) {
+            Log.console(e);
             throw e;
         }
 
