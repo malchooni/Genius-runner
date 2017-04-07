@@ -1,4 +1,4 @@
-package name.yalsooni.genius.stringreplace.execute.replace;
+package name.yalsooni.genius.stringreplace.execute;
 
 
 import name.yalsooni.genius.common.definition.Service;
