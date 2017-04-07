@@ -20,7 +20,13 @@ public class GeniusClassLoader {
      */
     public synchronized static void setUrls(URL[] urls_) {
         urls = urls_;
-        urlClassLoader = new URLClassLoader(urls, BootHelperRepository.getBootHelper().getClassLoader());
+        ClassLoader parentLoader = BootHelperRepository.getBootHelper().getClassLoader();
+
+        if(parentLoader != null){
+            urlClassLoader = new URLClassLoader(urls, parentLoader );
+        }else{
+            urlClassLoader = new URLClassLoader(urls);
+        }
     }
 
     public static URLClassLoader getUrlClassLoader() {
