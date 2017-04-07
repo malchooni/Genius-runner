@@ -12,7 +12,7 @@ import name.yalsooni.genius.common.definition.annotation.Entry;
 @Delegate(projectID = "098", serviceType = Service.UTIL)
 public class Hello {
 
-    @Entry
+    @Entry(arguments = {"your name"})
     public void hi(String name){
         System.out.println(name + " hello.");
     }

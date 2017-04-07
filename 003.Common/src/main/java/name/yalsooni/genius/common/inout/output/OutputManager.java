@@ -48,7 +48,7 @@ public class OutputManager {
         if(parameters != null && parameters.length > 0){
             Log.console(" - ["+entryDTO.getName()+"] parameters" );
             for(int i=0; i < parameters.length; i++){
-                Log.console((i+1) + " : " +parameters[i].getName());
+                Log.console((i+1) + " : " +parameters[i].getName() + " - " + entryDTO.getArguments(i));
             }
         }
     }

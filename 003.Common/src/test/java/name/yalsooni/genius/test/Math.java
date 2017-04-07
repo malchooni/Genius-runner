@@ -17,7 +17,7 @@ public class Math {
      * @param a
      * @param b
      */
-    @Entry
+    @Entry(arguments = {"value 1", "value 2"})
     public void sum ( int a, int b ){
         System.out.println(a + " + " + b + " = " + (a+b));
     }
@@ -27,7 +27,7 @@ public class Math {
      * @param a
      * @param b
      */
-    @Entry
+    @Entry(arguments = {"value 1", "value 2"})
     public void minus ( int a, int b ){
         System.out.println(a + " - " + b + " = " + (a-b));
     }

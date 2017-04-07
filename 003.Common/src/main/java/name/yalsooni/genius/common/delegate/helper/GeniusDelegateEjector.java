@@ -88,8 +88,9 @@ public class GeniusDelegateEjector {
             Entry entry = method.getAnnotation(Entry.class);
             if(entry != null){
                 EntryDTO entryDTO = new EntryDTO(method);
+                entryDTO.setArguments(entry.arguments());
                 delegateDTO.addEntry(entryDTO);
-                Log.console("\t - "+entryDTO.toString());
+                Log.console("\t - "+entryDTO.toStringMethod());
             }
         }
     }

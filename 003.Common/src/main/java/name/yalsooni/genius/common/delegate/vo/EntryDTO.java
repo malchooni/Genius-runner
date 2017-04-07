@@ -16,6 +16,7 @@ public class EntryDTO {
     private String[] parameterTypes;
     private Method method;
     private Object[] parameterObject;
+    private String[] arguments;
 
     public EntryDTO(Method method) {
         this.method = method;
@@ -121,11 +122,61 @@ public class EntryDTO {
     }
 
     /**
+     * 인자값 설명이 담긴 배열
+     * @return
+     */
+    public String[] getArguments() {
+        return arguments;
+    }
+
+    /**
+     * 인자값 설명이 담긴 배열
+     * @return
+     */
+    public String getArguments(int arrIdx) {
+        String msg;
+        try{
+            msg = arguments[arrIdx];
+        }catch (Exception ae){
+            msg = "none";
+        }
+
+        return msg;
+    }
+
+    /**
+     * 인자값 설명 적재
+     * @param arguments
+     */
+    public void setArguments(String[] arguments) {
+        this.arguments = arguments;
+    }
+
+    /**
      * 엔트리(메소드) 정보를 반환한다.
      * @return
      */
-    @Override
-    public String toString(){
-        return method.toString();
+    public String toStringMethod(){
+        return "method name : "+method.toString();
+    }
+
+    /**
+     * 엔트리(인수값) 정보를 반환한다.
+     * @return
+     */
+    public String toStringArguments(){
+        StringBuilder methodInfo = new StringBuilder();
+        int argumentLength = arguments.length;
+
+        methodInfo.append("arguments : ");
+
+        for(int i=0; i < argumentLength; i++){
+            methodInfo.append("[").append(i+1).append("]").append(arguments[i]);
+            if(i != argumentLength -1){
+                methodInfo.append(", ");
+            }
+        }
+
+        return methodInfo.toString();
     }
 }
