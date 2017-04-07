@@ -1,5 +1,6 @@
 package name.yalsooni.genius.common.repository;
 
+import name.yalsooni.genius.boothelper.execute.BootHelper;
 import name.yalsooni.genius.boothelper.repository.BootHelperRepository;
 
 import java.net.URL;
@@ -20,10 +21,10 @@ public class GeniusClassLoader {
      */
     public synchronized static void setUrls(URL[] urls_) {
         urls = urls_;
-        ClassLoader parentLoader = BootHelperRepository.getBootHelper().getClassLoader();
+        BootHelper parentBootHelper = BootHelperRepository.getBootHelper();
 
-        if(parentLoader != null){
-            urlClassLoader = new URLClassLoader(urls, parentLoader );
+        if(parentBootHelper != null){
+            urlClassLoader = new URLClassLoader(urls, parentBootHelper.getClassLoader() );
         }else{
             urlClassLoader = new URLClassLoader(urls);
         }
