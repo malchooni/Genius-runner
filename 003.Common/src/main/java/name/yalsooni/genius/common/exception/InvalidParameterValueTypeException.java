@@ -8,6 +8,6 @@ import name.yalsooni.genius.common.definition.ErrCode;
  */
 public class InvalidParameterValueTypeException extends Exception{
     public InvalidParameterValueTypeException(Throwable cause) {
-        super(ErrCode.G_002_0006, cause);
+        super(ErrCode.G_003_0006, cause);
     }
 }

@@ -30,10 +30,18 @@ public class GeniusClassLoader {
         }
     }
 
+    /**
+     * URLClassLoader 반환
+     * @return
+     */
     public static URLClassLoader getUrlClassLoader() {
         return urlClassLoader;
     }
 
+    /**
+     * URL Array 반환
+     * @return
+     */
     public static URL[] getUrls() {
         return urls;
     }
