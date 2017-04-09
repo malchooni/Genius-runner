@@ -5,7 +5,7 @@
 
 ## 공통 모듈 설명 및 의존관계
 
-![모듈 의존관계](https://github.com/yalsooni/Genius/blob/master/op/img/readme1.png =300x)
+![모듈 의존관계](https://github.com/yalsooni/Genius/blob/master/op/img/readme1.png)
 
  * `001.Util` - 지니어스에서 자주 사용하는 클래스 모음 
  * `002.BootHelper` - 사용자정의 클래스로더를 구현한 모듈, 특정 라이브러리 디렉토리를 클래스로더함.
