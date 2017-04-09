@@ -17,7 +17,7 @@
  
  클래스에 Delegate 어노테이션을 정의하여 해당 클래스가 지니어스 유틸 클래스임을 선언한다.
  
- ##### Delegate 어노테이션 속성
+ #### Delegate 어노테이션 속성
  
  > @Delegate(projectID = "099", serviceType = Service.UTIL)
  
@@ -39,7 +39,7 @@
  
  Delegate는 서비스의 대표 이름이 되며 기능이 되는 메소드에는 Entry 어노테이션을 선언한다. 한 클래스에 여 러개의 Entry를 사용할 수 있다.
  
- ##### Entry 어노테이션 속성
+ #### Entry 어노테이션 속성
  
  > @Entry(arguments = {"value 1", "value 2"})
  
@@ -49,4 +49,49 @@
   예 ) {"value 1", "value 2"}
   ~~~
  
+## 구현 예제
 
+~~~java
+package name.yalsooni.genius.test;
+
+
+import name.yalsooni.genius.common.definition.Service;
+import name.yalsooni.genius.common.definition.annotation.Delegate;
+import name.yalsooni.genius.common.definition.annotation.Entry;
+
+/**
+ * Math
+ * Created by yoon-iljoong on 2016. 10. 31..
+ */
+@Delegate(projectID = "099", serviceType = Service.UTIL)
+public class Math {
+
+    /**
+     * 더하기
+     * @param a
+     * @param b
+     */
+    @Entry(arguments = {"value 1", "value 2"})
+    public void sum ( int a, int b ){
+        System.out.println(a + " + " + b + " = " + (a+b));
+    }
+
+    /**
+     * 빼기
+     * @param a
+     * @param b
+     */
+    @Entry(arguments = {"value 1", "value 2"})
+    public void minus ( int a, int b ){
+        System.out.println(a + " - " + b + " = " + (a-b));
+    }
+
+    /**
+     * print
+     */
+    @Entry
+    public void print(){
+        System.out.println("Math Util Service.");
+    }
+}
+~~~
