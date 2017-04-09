@@ -24,6 +24,11 @@ public class GeniusDelegateEjector {
 
     private ExtFileSearch fileSearch = new ExtFileSearch(".jar");
 
+    /**
+     * 딜리게이트 어노테이션 추출
+     * @param gProperties
+     * @return
+     */
     public DelegateList eject(GeniusProperties gProperties){
 
         DelegateList result = new DelegateList();

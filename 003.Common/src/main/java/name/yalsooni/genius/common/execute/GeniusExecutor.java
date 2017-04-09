@@ -51,7 +51,7 @@ public class GeniusExecutor {
             this.ejector = new GeniusDelegateEjector();
             this.delegateList = this.ejector.eject(this.geniusProperties);
         }catch (Exception e){
-            throw new Exception(ErrCode.G_002_0001,e);
+            throw new Exception(ErrCode.G_003_0001,e);
         }
 
         Log.console(" - Genius 2.0 Initialization done.");
@@ -139,14 +139,14 @@ public class GeniusExecutor {
         try {
             executor.initialization(args);
         } catch (Exception e) {
-            Log.console(ErrCode.G_002_0001,e);
+            Log.console(ErrCode.G_003_0001,e);
             return;
         }
 
         try {
             executor.execute();
         } catch (Exception e) {
-            Log.console(new Exception(ErrCode.G_002_0002,e));
+            Log.console(new Exception(ErrCode.G_003_0002,e));
         }
     }
 }

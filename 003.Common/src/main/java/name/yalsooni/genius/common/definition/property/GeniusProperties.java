@@ -11,6 +11,9 @@ import name.yalsooni.genius.util.reader.PropertyReader;
 public class GeniusProperties {
     private PropertyReader reader = null;
 
+    /**
+     * 자바 시스템프로퍼티명
+     */
     private final String JAVA_OPTION_NAME = "GENIUS_META";
 
     /**
@@ -39,10 +42,18 @@ public class GeniusProperties {
         }
     }
 
+    /**
+     * 지니어스 jar 경로 반환
+     * @return
+     */
     public String getAnnotationLibRootPath() {
         return annotationLibRootPath;
     }
 
+    /**
+     * 지너이스 jar 경로 입력
+     * @param annotationLibRootPath
+     */
     public void setAnnotationLibRootPath(String annotationLibRootPath) {
         this.annotationLibRootPath = annotationLibRootPath;
     }

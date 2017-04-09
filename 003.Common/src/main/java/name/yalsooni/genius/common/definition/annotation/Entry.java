@@ -13,5 +13,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Entry {
 
+    /**
+     * 인수값 설명
+     * @return
+     */
     String[] arguments() default "none";
 }

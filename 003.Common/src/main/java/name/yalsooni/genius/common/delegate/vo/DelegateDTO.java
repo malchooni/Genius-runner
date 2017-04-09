@@ -27,6 +27,11 @@ public class DelegateDTO {
         this.entryMap.put(entry.getName(), entry);
     }
 
+    /**
+     * 엔트리 정보 반환
+     * @param entryName
+     * @return
+     */
     public EntryDTO getEntry(String entryName){
         EntryDTO[] entryList = getEntrys();
         for(EntryDTO entryDTO : entryList){
