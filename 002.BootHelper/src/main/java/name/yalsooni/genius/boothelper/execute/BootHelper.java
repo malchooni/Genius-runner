@@ -46,16 +46,16 @@ public class BootHelper {
     public void exe(String[] args) throws Exception {
         this.args = args;
 
-        Log.console("BootHelper Meta Loading..");
+        Log.console(" - BootHelper Meta Loading..");
         BootHelperUtil.metaLoading(this);
 
-        Log.console("User Property Loading..");
+        Log.console(" - User Property Loading..");
         BootHelperUtil.propertyLoading(this);
 
-        Log.console("Class Loader Loading..");
+        Log.console(" - Class Loader Loading..");
         BootHelperUtil.classLoad(this);
 
-        Log.console("Execute Main Class..");
+        Log.console(" - Execute Main Class..");
         BootHelperUtil.classExecute(this);
 
 

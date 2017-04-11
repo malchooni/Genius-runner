@@ -39,7 +39,7 @@ public class BootHelperUtil {
                     throw new Exception(Code.BH_0002,e);
                 }
             }else{
-                Log.console("meta resource name : " + PropertyName.METAFILE_NAME);
+                Log.console("meta file name : " + PropertyName.METAFILE_NAME);
                 InputStream inputStream = BootHelper.class.getClassLoader().getResourceAsStream( PropertyName.METAFILE_NAME  );
                 bootHelper.getPropertyReader().read(PropertyName.META, inputStream);
             }
