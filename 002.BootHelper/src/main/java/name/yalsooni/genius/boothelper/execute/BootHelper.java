@@ -14,14 +14,6 @@ import name.yalsooni.genius.util.reader.PropertyReader;
  */
 public class BootHelper {
 
-    public final String META = "META";
-    public final String MAIN_CLASS_NAME = "CLASSNAME.EXE.MAIN";
-    public final String PROPERTY_ROOT_PATH = "PATH.PROPERTY.ROOT";
-    public final String LIB_ROOT_PATH = "PATH.LIB.ROOT";
-    public final String CLASSNAME_GET_DIR = "CLASSNAME.GET.DIR";
-
-    public final String PROPERTY_EXT_NAME = ".data";
-
     private PropertyReader bootHelperProperties = new PropertyReader();
     private JarLoader jarLoader;
 

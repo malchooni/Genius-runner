@@ -1,19 +1,13 @@
 package name.yalsooni.genius.boothelper.definition;
 
 /**
+ * 부트헬퍼 에러코드 정의
  * Created by ijyoon on 2016. 7. 29..
  */
 public interface Code {
-    String BH_0001 = "[BH-0001] metafile not found.";
-
-
-    String A02_0001 = "[A02-0001] metafile not found.";
-    String A02_0002 = "[A02-0002] initialize error.";
-    String A02_0003 = "[A02-0003] execute error.";
-    String A02_0004 = "[A02-0004] 'MAIN.CLASSNAME' key not found in property file.";
-    String A02_0005 = "[A02-0005] 'LIB.ROOTPATH' key not found in property file.";
-    String A02_0006 = "[A02-0006] 'LIB.ROOTPATH' is not directory.";
-    String A02_0007 = "[A02-0007] no search jar file in 'LIB.ROOTPATH' directory.";
-    String A02_0008 = "[A02-0008] class not found in 'LIB.ROOTPATH' directory.";
-
+    String BH_0001 = "[BH-0001] 메타데이터 파일 로드 기타 예외 발생.";
+    String BH_0002 = "[BH-0002] 메타데이터 파일을 찾을 수 없습니다.";
+    String BH_0003 = "[BH-0003] 프로퍼티 파일을 읽는 중 예외 발생.";
+    String BH_0004 = "[BH-0004] 클래스 로드 중 예외 발생.";
+    String BH_0005 = "[BH-0005] 클래스 호출 진행 중 예외 발생.";
 }
