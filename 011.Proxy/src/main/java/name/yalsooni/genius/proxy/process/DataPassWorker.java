@@ -1,6 +1,7 @@
 package name.yalsooni.genius.proxy.process;
 
 import name.yalsooni.genius.proxy.definition.Code;
+import name.yalsooni.genius.proxy.definition.Direction;
 import name.yalsooni.genius.proxy.exception.ClientIOException;
 import name.yalsooni.genius.util.Log;
 
@@ -10,6 +11,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 /**
+ * 스트림 데이터 처리기
  * Created by ijyoon on 2017. 4. 12..
  */
 public class DataPassWorker implements Runnable {
@@ -17,6 +19,13 @@ public class DataPassWorker implements Runnable {
     private Socket serverSocket;
     private Socket clientSocket;
 
+    /**
+     *
+     * @param serverSocket
+     * @param targetIP
+     * @param targetPort
+     * @throws ClientIOException
+     */
     public DataPassWorker(Socket serverSocket, String targetIP, int targetPort) throws ClientIOException {
         this.serverSocket = serverSocket;
         try{
@@ -27,9 +36,6 @@ public class DataPassWorker implements Runnable {
     }
 
     public void run() {
-
-        StringBuilder receivePacket = new StringBuilder();
-        StringBuilder sendPacket = new StringBuilder();
 
         InputStream serverInputStream = null;
         OutputStream clientOutputStream = null;
@@ -44,58 +50,22 @@ public class DataPassWorker implements Runnable {
             clientInputStream = clientSocket.getInputStream();
             serverOutputStream = serverSocket.getOutputStream();
 
-            byte[] packet = new byte[2048];
-            int readIdx = 0;
-            boolean running = true;
+            boolean availableStream = true;
 
-            while(running){
-                do{
-                    readIdx = serverInputStream.read(packet);
-
-                    if(readIdx == -1){
-                        running = false;
-                        break;
-                    }
-
-                    clientOutputStream.write(packet, 0, readIdx);
-                    receivePacket.append(new String(packet, 0, readIdx));
-                }while( readIdx == 2048);
-
-                if(!running){
+            while(true){
+                availableStream = DataPassWorkUtil.dataProcessing(Direction.RECEIVED, serverInputStream, clientOutputStream);
+                if(!availableStream){
                     break;
                 }
 
-                clientOutputStream.flush();
-
-                Log.console(" -- received packet --");
-                Log.console(receivePacket.toString());
-                Log.console(" -- --------------- --");
-
-                do{
-                    readIdx = clientInputStream.read(packet);
-
-                    if(readIdx == -1){
-                        running = false;
-                        break;
-                    }
-
-                    serverOutputStream.write(packet, 0, readIdx);
-                    sendPacket.append(new String(packet, 0, readIdx));
-                }while( readIdx == 2048 );
-
-                if(!running){
+                availableStream = DataPassWorkUtil.dataProcessing(Direction.SENT, clientInputStream, serverOutputStream);
+                if(!availableStream){
                     break;
                 }
-
-                serverOutputStream.flush();
-
-                Log.console(" -- sent packet --");
-                Log.console(sendPacket.toString());
-                Log.console(" -- ----------- --");
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.console(Code.G_011_0004, e);
         } finally {
             try {serverInputStream.close();} catch (IOException e1) {}
             try {clientOutputStream.close();} catch (IOException e1) {}
