@@ -9,4 +9,5 @@ public interface Code {
     String G_011_0002 = "[G-011-0002] Client Socket 생성 실패 하였습니다.";
     String G_011_0003 = "[G-011-0003] Server accept 실패 하였습니다.";
     String G_011_0004 = "[G-011-0004] 패킷 처리 중 예외 발생.";
+    String G_011_0005 = "[G-011-0005] 소켓 예외 발생";
 }

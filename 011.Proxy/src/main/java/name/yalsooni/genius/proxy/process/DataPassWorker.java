@@ -6,8 +6,6 @@ import name.yalsooni.genius.proxy.exception.ClientIOException;
 import name.yalsooni.genius.util.Log;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 
 /**
@@ -19,6 +17,11 @@ public class DataPassWorker implements Runnable {
     private Socket serverSocket;
     private Socket clientSocket;
 
+    private DataPipe outBound;
+    private DataPipe inBound;
+
+    private Object monitor = new Object();
+
     /**
      * 데이터 송수신 객체 생성
      * @param serverSocket 프록시 리슨 소켓
@@ -29,7 +32,9 @@ public class DataPassWorker implements Runnable {
     public DataPassWorker(Socket serverSocket, String targetIP, int targetPort) throws ClientIOException {
         this.serverSocket = serverSocket;
         try{
-            this.clientSocket = new Socket(targetIP, targetPort);
+            this.clientSocket   = new Socket(targetIP, targetPort);
+            this.outBound       = new DataPipe(monitor, Direction.RECEIVED, serverSocket.getInputStream(), clientSocket.getOutputStream());
+            this.inBound        = new DataPipe(monitor, Direction.SENT, clientSocket.getInputStream(), serverSocket.getOutputStream());
         }catch (IOException ioe){
             throw new ClientIOException(Code.G_011_0002, ioe);
         }
@@ -40,46 +45,57 @@ public class DataPassWorker implements Runnable {
      * 연결 후 패킷에 대한 정보를 출력 한다.
      */
     public void run() {
-
-        InputStream serverInputStream = null;
-        OutputStream clientOutputStream = null;
-
-        InputStream clientInputStream = null;
-        OutputStream serverOutputStream = null;
+        DataPassWorkUtil.setParentThreadName(this, Thread.currentThread().getName());
+        DataPassWorkUtil.start(this);
 
         try {
-            serverInputStream = serverSocket.getInputStream();
-            clientOutputStream = clientSocket.getOutputStream();
-
-            clientInputStream = clientSocket.getInputStream();
-            serverOutputStream = serverSocket.getOutputStream();
-
-            boolean availableStream = true;
-
-            while(true){
-                availableStream = DataPassWorkUtil.dataProcessing(Direction.RECEIVED, serverInputStream, clientOutputStream);
-                if(!availableStream){
-                    break;
-                }
-
-                availableStream = DataPassWorkUtil.dataProcessing(Direction.SENT, clientInputStream, serverOutputStream);
-                if(!availableStream){
-                    break;
-                }
-            }
-
-        } catch (IOException e) {
-            Log.console("["+Thread.currentThread().getName() + "] " +Code.G_011_0004, e);
-        } finally {
-            try {serverInputStream.close();} catch (IOException e1) {}
-            try {clientOutputStream.close();} catch (IOException e1) {}
-            try {clientInputStream.close();} catch (IOException e1) {}
-            try {serverOutputStream.close();} catch (IOException e1) {}
-
-            try {serverSocket.close();} catch (IOException e1) {}
-            try {clientSocket.close();} catch (IOException e1) {}
-
-            Log.console("["+Thread.currentThread().getName() + "] Thread Done.");
+            DataPassWorkUtil.waitWorker(this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
+        DataPassWorkUtil.dataPipeClose(this);
+
+        Log.console("["+Thread.currentThread().getName()+"] Thread Done.");
+    }
+
+    /**
+     * 송신 파이프 반환
+     * @return
+     */
+    public DataPipe getOutBound() {
+        return outBound;
+    }
+
+    /**
+     * 수신 파이프 반환
+     * @return
+     */
+    public DataPipe getInBound() {
+        return inBound;
+    }
+
+    /**
+     * 모니터 객체 반환
+     * @return
+     */
+    public Object getMonitor() {
+        return monitor;
+    }
+
+    /**
+     * 로컬 서버 소켓 반환.
+     * @return
+     */
+    public Socket getServerSocket() {
+        return serverSocket;
+    }
+
+    /**
+     * 클라이언트 소켓 반환
+     * @return
+     */
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 }

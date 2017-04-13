@@ -6,8 +6,10 @@ import name.yalsooni.genius.proxy.process.DataPassWorker;
 import name.yalsooni.genius.util.Log;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +42,7 @@ public class Proxy {
     public void initialize() throws Exception{
         try {
             serverSocket = new ServerSocket(sourcePort);
-            Log.console("Listening Port : " + sourcePort);
+            Log.console("["+Thread.currentThread().getName()+"] Listening Port : " + sourcePort);
         } catch (IOException e) {
             Log.console(Code.G_011_0001, e);
         }
@@ -52,11 +54,14 @@ public class Proxy {
      * 실행
      */
     public void execute(){
-        Socket socket = null;
+        Socket socket;
+        InetSocketAddress inet;
+
         while(running){
             try {
                 socket = serverSocket.accept();
-                Log.console("Accept Socket : " + socket.getLocalAddress());
+                inet = (InetSocketAddress)socket.getRemoteSocketAddress();
+                Log.console("["+Thread.currentThread().getName()+"] Accept Socket : " + inet.getAddress().getHostAddress() + ":" + inet.getPort());
                 threadPoolExecutor.execute(new DataPassWorker(socket, targetIP, targetPort));
             } catch (ClientIOException cioe){
                 Log.console(Code.G_011_0002, cioe);

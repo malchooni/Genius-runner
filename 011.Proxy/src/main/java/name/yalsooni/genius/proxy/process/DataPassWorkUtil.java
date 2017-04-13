@@ -1,10 +1,6 @@
 package name.yalsooni.genius.proxy.process;
 
-import name.yalsooni.genius.util.Log;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * 데이터 처리기 공통 기능
@@ -12,58 +8,56 @@ import java.io.OutputStream;
  */
 public class DataPassWorkUtil {
 
-    private static final int PACKETSIZE = 2048;
-
     /**
-     * 데이터 전송 및 출력
-     * @param direction
-     * @param is
-     * @param os
-     * @return available stream
-     * @throws IOException
+     * 부모 스레드 이름 설정
+     * @param dataPassWorker
+     * @param currentThreadName
      */
-    public static boolean dataProcessing (String direction, InputStream is, OutputStream os) throws IOException {
-
-        String data = streamPass(is, os);
-
-        if(data == null){
-            return false;
-        }
-
-        Log.console("["+Thread.currentThread().getName() + "] ************ "+direction+" packet ************");
-        Log.console("["+Thread.currentThread().getName() + "]\n"+data);
-        Log.console("["+Thread.currentThread().getName() + "] *****************************************");
-
-        return true;
+    public static void setParentThreadName(DataPassWorker dataPassWorker, String currentThreadName){
+        dataPassWorker.getOutBound().setParentThreadName(currentThreadName);
+        dataPassWorker.getInBound().setParentThreadName(currentThreadName);
     }
 
+    /**
+     * 송수신 파이프 스레드 시작
+     * @param dataPassWorker
+     */
+    public static void start(DataPassWorker dataPassWorker){
+        dataPassWorker.getOutBound().start();
+        dataPassWorker.getInBound().start();
+    }
 
     /**
-     * 인풋스트림을 아웃풋스트림으로 패스
-     * @param is
-     * @param os
-     * @return
-     * @throws IOException
+     * monitor wait
+     * @param dataPassWorker
+     * @throws InterruptedException
      */
-    private static String streamPass(InputStream is, OutputStream os) throws IOException {
-        StringBuilder packetString = new StringBuilder();
-        int readIdx = 0;
-
-        byte[] packet = new byte[PACKETSIZE];
-
-        do{
-            readIdx = is.read(packet);
-
-            if(readIdx == -1){
-                return null;
+    public static void waitWorker(DataPassWorker dataPassWorker) throws InterruptedException {
+        Object monitor = dataPassWorker.getMonitor();
+        synchronized (monitor){
+            try {
+                monitor.wait();
+            } catch (InterruptedException e) {
+                throw e;
             }
+        }
+    }
 
-            os.write(packet, 0, readIdx);
-            packetString.append(new String(packet, 0, readIdx));
-        }while( readIdx == PACKETSIZE);
+    /**
+     * 송수신 파이프 닫기
+     * @param dataPassWorker
+     */
+    public static void dataPipeClose(DataPassWorker dataPassWorker){
+        dataPassWorker.getOutBound().close();
+        dataPassWorker.getInBound().close();
+    }
 
-        os.flush();
-
-        return packetString.toString();
+    /**
+     * 서버, 클라이언트 소켓 닫기
+     * @param dataPassWorker
+     */
+    public static void socketClose(DataPassWorker dataPassWorker){
+        try { dataPassWorker.getServerSocket().close();} catch (IOException e) {}
+        try { dataPassWorker.getClientSocket().close();} catch (IOException e) {}
     }
 }
