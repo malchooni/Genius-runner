@@ -20,10 +20,10 @@ public class DataPassWorker implements Runnable {
     private Socket clientSocket;
 
     /**
-     *
-     * @param serverSocket
-     * @param targetIP
-     * @param targetPort
+     * 데이터 송수신 객체 생성
+     * @param serverSocket 프록시 리슨 소켓
+     * @param targetIP 대상 아이피
+     * @param targetPort 대상 포트
      * @throws ClientIOException
      */
     public DataPassWorker(Socket serverSocket, String targetIP, int targetPort) throws ClientIOException {
@@ -35,6 +35,10 @@ public class DataPassWorker implements Runnable {
         }
     }
 
+    /**
+     * accept socket을 기반으로 타켓으로 정의된 서버에 소켓 연결.
+     * 연결 후 패킷에 대한 정보를 출력 한다.
+     */
     public void run() {
 
         InputStream serverInputStream = null;

@@ -19,7 +19,7 @@ public class DataPassWorkUtil {
      * @param direction
      * @param is
      * @param os
-     * @return
+     * @return available stream
      * @throws IOException
      */
     public static boolean dataProcessing (String direction, InputStream is, OutputStream os) throws IOException {
