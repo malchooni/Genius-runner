@@ -11,7 +11,7 @@ import name.yalsooni.genius.util.Log;
 /**
  * Created by yoon-iljoong on 2016. 11. 3..
  */
-@Delegate(projectID = "011", serviceType = Service.UTIL)
+@Delegate(projectID = "010", serviceType = Service.UTIL)
 public class StringReplaceUtil {
 
     @Entry
