@@ -69,7 +69,7 @@ public class DataPassWorker implements Runnable {
             }
 
         } catch (IOException e) {
-            Log.console(Code.G_011_0004, e);
+            Log.console("["+Thread.currentThread().getName() + "] " +Code.G_011_0004, e);
         } finally {
             try {serverInputStream.close();} catch (IOException e1) {}
             try {clientOutputStream.close();} catch (IOException e1) {}
@@ -79,7 +79,7 @@ public class DataPassWorker implements Runnable {
             try {serverSocket.close();} catch (IOException e1) {}
             try {clientSocket.close();} catch (IOException e1) {}
 
-            Log.console("Thread Done.");
+            Log.console("["+Thread.currentThread().getName() + "] Thread Done.");
         }
     }
 }

@@ -52,9 +52,7 @@ public class Proxy {
      * 실행
      */
     public void execute(){
-
         Socket socket = null;
-
         while(running){
             try {
                 socket = serverSocket.accept();

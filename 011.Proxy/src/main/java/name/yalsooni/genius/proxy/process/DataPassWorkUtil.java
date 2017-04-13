@@ -30,9 +30,9 @@ public class DataPassWorkUtil {
             return false;
         }
 
-        Log.console(" ************ "+direction+" packet ************");
-        Log.console("\n"+data);
-        Log.console(" *****************************************");
+        Log.console("["+Thread.currentThread().getName() + "] ************ "+direction+" packet ************");
+        Log.console("["+Thread.currentThread().getName() + "]\n"+data);
+        Log.console("["+Thread.currentThread().getName() + "] *****************************************");
 
         return true;
     }
