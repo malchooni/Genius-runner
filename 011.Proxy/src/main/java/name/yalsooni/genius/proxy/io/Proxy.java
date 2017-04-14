@@ -54,7 +54,7 @@ public class Proxy {
      * 실행
      */
     public void execute(){
-        Socket socket;
+        Socket socket = null;
         InetSocketAddress inet;
 
         while(running){
@@ -65,8 +65,13 @@ public class Proxy {
                 threadPoolExecutor.execute(new DataPassWorker(socket, targetIP, targetPort));
             } catch (ClientIOException cioe){
                 Log.console(Code.G_011_0002, cioe);
+                if(socket != null) {
+                    try { socket.close();} catch (IOException e) {}
+                }
             } catch (IOException e) {
                 Log.console(Code.G_011_0003, e);
+            } finally {
+
             }
         }
     }
