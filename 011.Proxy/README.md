@@ -5,6 +5,7 @@
 ## 1.버전 정보
 
  *  v1.0 - 2017/04/14 최초 배포
+ * [Download](https://github.com/yalsooni/Genius/releases/tag/v1.0)
  
  
 ## 2.실행하기
@@ -32,4 +33,3 @@ java -DMETA_PATH=../property/meta.data \
 :../lib/genius-commons/genius002-boothelper.jar \
 name.yalsooni.genius.boothelper.Run 011 ioBind 7070,localhost,8080
 ~~~
-
