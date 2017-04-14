@@ -6,7 +6,7 @@ import name.yalsooni.genius.common.definition.annotation.Delegate;
 import name.yalsooni.genius.common.definition.annotation.Entry;
 
 /**
- * Genius 2.0 Math Util Service
+ * Genius v1.0 Math Util Service
  * Created by yoon-iljoong on 2016. 10. 31..
  */
 @Delegate(projectID = "099", serviceType = Service.UTIL)
