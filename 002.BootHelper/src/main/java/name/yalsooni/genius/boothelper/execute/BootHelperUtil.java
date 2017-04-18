@@ -5,8 +5,8 @@ import name.yalsooni.genius.boothelper.classloader.JarLoader;
 import name.yalsooni.genius.boothelper.definition.Code;
 import name.yalsooni.genius.boothelper.definition.PropertyName;
 import name.yalsooni.genius.boothelper.repository.PropertyRepository;
-import name.yalsooni.genius.util.Log;
-import name.yalsooni.genius.util.file.ExtFileSearch;
+import name.yalsooni.genius.boothelper.util.ExtFileSearch;
+import name.yalsooni.genius.boothelper.util.Log;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

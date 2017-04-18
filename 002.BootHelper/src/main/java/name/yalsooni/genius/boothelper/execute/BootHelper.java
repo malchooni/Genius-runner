@@ -5,8 +5,8 @@ import name.yalsooni.genius.boothelper.classloader.JarLoader;
 import name.yalsooni.genius.boothelper.classloader.exception.JARFileNotFoundException;
 import name.yalsooni.genius.boothelper.classloader.exception.NotDirectoryException;
 import name.yalsooni.genius.boothelper.repository.BootHelperRepository;
-import name.yalsooni.genius.util.Log;
-import name.yalsooni.genius.util.reader.PropertyReader;
+import name.yalsooni.genius.boothelper.util.Log;
+import name.yalsooni.genius.boothelper.util.PropertyReader;
 
 /**
  * boot helper start class
