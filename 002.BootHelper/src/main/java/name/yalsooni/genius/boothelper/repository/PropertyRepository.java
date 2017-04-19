@@ -1,6 +1,7 @@
 package name.yalsooni.genius.boothelper.repository;
 
-import name.yalsooni.genius.util.reader.PropertyReader;
+
+import name.yalsooni.genius.boothelper.util.PropertyReader;
 
 import java.util.Properties;
 

@@ -1,6 +1,6 @@
 package name.yalsooni.genius.boothelper.classloader;
 
-import name.yalsooni.genius.util.Log;
+import name.yalsooni.genius.boothelper.util.Log;
 
 import java.io.IOException;
 import java.net.URL;
