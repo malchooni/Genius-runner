@@ -26,7 +26,7 @@ public class DataPipeUtil {
 
         String data = streamPass(is, os);
 
-        if(data == null){
+        if(data.length() < 1){
             return false;
         }
 
