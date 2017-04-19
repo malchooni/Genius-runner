@@ -47,20 +47,14 @@ public class DataPipeUtil {
      */
     private static String streamPass(InputStream is, OutputStream os) throws IOException {
         StringBuilder packetString = new StringBuilder();
-        int readIdx = 0;
+        int readSize = 0;
 
         byte[] packet = new byte[PACKETSIZE];
 
-        do{
-            readIdx = is.read(packet);
-
-            if(readIdx == -1){
-                return null;
-            }
-
-            os.write(packet, 0, readIdx);
-            packetString.append(new String(packet, 0, readIdx));
-        }while( readIdx == PACKETSIZE);
+        while( (readSize = is.read(packet)) != -1){
+            os.write(packet, 0, readSize);
+            packetString.append(new String(packet, 0, readSize));
+        }
 
         os.flush();
 
