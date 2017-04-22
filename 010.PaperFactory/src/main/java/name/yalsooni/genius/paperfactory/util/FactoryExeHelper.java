@@ -4,7 +4,7 @@ import name.yalsooni.genius.paperfactory.definition.Code;
 import name.yalsooni.genius.paperfactory.definition.ExcelReadIdx;
 import name.yalsooni.genius.paperfactory.definition.Process;
 import name.yalsooni.genius.paperfactory.execute.PaperFactoryService;
-import name.yalsooni.genius.stringreplace.replace.filter.StringReplaceFilter;
+import name.yalsooni.genius.paperfactory.filter.PaperFactoryFilter;
 import name.yalsooni.genius.util.Log;
 import name.yalsooni.genius.util.file.FileSupport;
 
@@ -138,7 +138,7 @@ public class FactoryExeHelper {
                 value = values.get(j);
             }else{
                 try{
-                    value = ((StringReplaceFilter) obj).replace(values.get(j));
+                    value = ((PaperFactoryFilter) obj).replace(values.get(j));
                 }catch(Exception e){
                     throw new Exception(Code.G_010_0007 + " : " + e.getMessage(), e);
                 }
@@ -158,9 +158,8 @@ public class FactoryExeHelper {
      * 새로운 파일 생성
      * @param templateFilePath
      * @param newFilePath
-     * @param subject
-     * @param values
-     * @throws FileNotFoundException
+     * @param dataMap
+     * @throws Exception
      */
     private static void replaceFileData(String templateFilePath , String newFilePath, Map<String,String> dataMap) throws Exception {
 
@@ -186,8 +185,7 @@ public class FactoryExeHelper {
      * 압축 파일
      * @param is
      * @param os
-     * @param subject
-     * @param values
+     * @param dataMap
      * @throws IOException
      */
     private static void replaceOnZipStream(InputStream is, OutputStream  os, Map<String,String> dataMap) throws IOException {
@@ -204,68 +202,69 @@ public class FactoryExeHelper {
             if (!zentry.isDirectory()) {
                 replaceOnStream(zipInputStream, zipOutputStream, dataMap);
             }
-
         }
-
     }
 
     private static void replaceOnStream(InputStream is, OutputStream  os, Map<String,String> dataMap) throws IOException {
 
         byte[] data = new byte[Process.BYTE_PACKET_SIZE];
+        byte[] tempSubject = new byte[Process.LIMIT_SUBJECT_BYTE_SIZE + 2];
+
         int readSize;
-        int offset = 0;
-        int length = Process.BYTE_PACKET_SIZE;
+        int dataStartIdx = 0;
+        int tempSubjectIdx = 0;
 
-        byte[] targetSubject = new byte[0];
-        int vaildLength = 0;
+        boolean scanTempSubject = false;
 
-        while ((readSize = is.read(data, offset, length)) != -1) {
+        while ((readSize = is.read(data)) != -1) {
 
-            for(int i=offset; i < readSize; i++){
+            for(int idx=0; idx < readSize; idx++){
 
-                if(data[i] == Process.PREFIX_MARK){
+                if (idx == readSize -1){
+                    os.write(data, dataStartIdx, readSize - dataStartIdx);
+                }else if(scanTempSubject && data[idx] == Process.POSTFIX_MARK) {
+                    tempSubject[tempSubjectIdx] = data[idx];
 
-                    /**
-                     * todo: 테스트 필요
-                     */
-                    if( readSize > Process.LIMIT_SUBJECT_BYTE_SIZE + 1 && readSize - i >= Process.LIMIT_SUBJECT_BYTE_SIZE + 1){
-
-                        offset = readSize - i - 1;
-                        length = readSize - offset;
-
-                        System.arraycopy(data, offset, data, 0, length);
-                        break;
+                    String value = dataMap.get(new String(tempSubject, 1, tempSubjectIdx - 1));
+                    if(value != null){
+                        os.write(value.getBytes());
+                    }else{
+                        os.write(tempSubject, 0, tempSubjectIdx + 1);
                     }
 
-                    int j = i+1;
-                    targetSubject = new byte[Process.LIMIT_SUBJECT_BYTE_SIZE];
-                    vaildLength=0;
+                    dataStartIdx = idx + 1;
+                    tempSubjectIdx = 0;
+                    scanTempSubject = false;
 
-                    for( ; j < readSize; j++, vaildLength++){
-                        if(data[j] == Process.POSTFIX_MARK){
-                            byte[] key = new byte[vaildLength];
-                            System.arraycopy(targetSubject, 0, key, 0, vaildLength);
+                }else if( scanTempSubject && tempSubjectIdx == Process.LIMIT_SUBJECT_BYTE_SIZE + 1 ){
+                    tempSubject[tempSubjectIdx] = data[idx];
+                    os.write(tempSubject, 0, tempSubject.length);
 
-                            String value = dataMap.get(new String(key));
+                    dataStartIdx = idx + 1;
 
-                            if(value != null){
-                                os.write(value.getBytes());
-                            }else{
-                                os.write(data, i, vaildLength + 2);
-                            }
-                            break;
-                        }
-                        targetSubject[vaildLength] = data[j];
-                    }
-                    i = j + 1;
+                    tempSubjectIdx = 0;
+                    scanTempSubject = false;
+
+                }else if (scanTempSubject && data[idx] == Process.PREFIX_MARK){
+
+                    os.write(tempSubject, 0, tempSubjectIdx);
+
+                    dataStartIdx = idx + 1;
+                    tempSubjectIdx = 0;
+                    tempSubject[tempSubjectIdx++] = data[idx];
+
+                }else if (data[idx] == Process.PREFIX_MARK){
+                    os.write(data, dataStartIdx, idx-dataStartIdx);
+
+                    scanTempSubject = true;
+                    tempSubject[tempSubjectIdx++] = data[idx];
+
+                    dataStartIdx = idx;
+
+                }else if (scanTempSubject) {
+                    tempSubject[tempSubjectIdx++] = data[idx];
                 }
-                os.write(data[i]);
             }
-        }
-        
-        if(vaildLength != 0){
-            os.write(Process.PREFIX_MARK);
-            os.write(targetSubject, 0, vaildLength);
         }
 
         os.flush();
