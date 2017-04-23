@@ -270,26 +270,6 @@ public class FactoryExeHelper {
         os.flush();
     }
 
-    private static boolean searchSubject(List<byte[]> subjectByteArr, int targetIdx, byte target){
-
-        for(byte[] subject : subjectByteArr){
-            if(targetIdx < subject.length && target == subject[targetIdx]){
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static int getSubjectIdx(List<String> subjects, String target){
-        for(int i=0; i<subjects.size(); i++){
-            if(subjects.get(i).equals(target)){
-                return i;
-            }
-        }
-        return -1;
-    }
-
     public static void main(String[] args){
 
         List<String> subject = new ArrayList<String>();
