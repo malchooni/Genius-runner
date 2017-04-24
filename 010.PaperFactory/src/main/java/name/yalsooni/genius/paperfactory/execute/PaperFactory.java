@@ -27,6 +27,13 @@ public class PaperFactory {
             return;
         }
 
+        try {
+            pfs.execute();
+        } catch (Exception e) {
+            Log.console(e);
+            return;
+        }
+
 
     }
 
