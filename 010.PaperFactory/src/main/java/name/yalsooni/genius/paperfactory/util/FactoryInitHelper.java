@@ -40,9 +40,8 @@ public class FactoryInitHelper {
             throw new Exception(Code.G_010_0002, e);
         }
 
-        service.setFilterListFilePath(properties.getProperty(PropertyName.FILTERLIST));
         service.setExcelDataFilePath(properties.getProperty(PropertyName.DATAEXCELFILEPATH));
-
+        service.setFilterListFilePath(properties.getProperty(PropertyName.FILTERLIST));
     }
 
     /**

@@ -163,9 +163,12 @@ public class FactoryExeHelper {
      */
     private static void replaceFileData(String templateFilePath , String newFilePath, Map<String,String> dataMap) throws Exception {
 
+        FileInputStream tempInput = null;
+        FileOutputStream targetOutput = null;
+
         try {
-            FileInputStream tempInput = new FileInputStream(new File(templateFilePath));
-            FileOutputStream targetOutput = new FileOutputStream(new File(newFilePath));
+            tempInput = new FileInputStream(new File(templateFilePath));
+            targetOutput = new FileOutputStream(new File(newFilePath));
 
             if (FactoryExeUtil.isCompressedXML(templateFilePath)) {
                 replaceOnZipStream(tempInput, targetOutput, dataMap);
@@ -173,11 +176,14 @@ public class FactoryExeHelper {
                 replaceOnStream(tempInput, targetOutput, dataMap);
             }
         }catch (FileNotFoundException fnfe){
-
+            fnfe.printStackTrace();
         }catch (IOException ioe){
-
+            ioe.printStackTrace();
         }catch (Exception e){
-
+            e.printStackTrace();
+        }finally {
+            try{ targetOutput.close(); } catch (Exception e){}
+            try{ tempInput.close(); } catch (Exception e){}
         }
     }
 
@@ -189,19 +195,30 @@ public class FactoryExeHelper {
      * @throws IOException
      */
     private static void replaceOnZipStream(InputStream is, OutputStream  os, Map<String,String> dataMap) throws IOException {
-        ZipInputStream zipInputStream = new ZipInputStream(is);
-        ZipOutputStream zipOutputStream = new ZipOutputStream(os);
 
-        ZipEntry zentry = null;
-        ZipEntry newZentry = null;
+        ZipInputStream zipInputStream = null;
+        ZipOutputStream zipOutputStream = null;
 
-        while ((zentry = zipInputStream.getNextEntry()) != null) {
-            newZentry = new ZipEntry(zentry.getName());
-            zipOutputStream.putNextEntry(newZentry);
+        try{
+            zipInputStream = new ZipInputStream(is);
+            zipOutputStream = new ZipOutputStream(os);
 
-            if (!zentry.isDirectory()) {
-                replaceOnStream(zipInputStream, zipOutputStream, dataMap);
+            ZipEntry zentry = null;
+            ZipEntry newZentry = null;
+
+            while ((zentry = zipInputStream.getNextEntry()) != null) {
+                newZentry = new ZipEntry(zentry.getName());
+                zipOutputStream.putNextEntry(newZentry);
+
+                if (!zentry.isDirectory()) {
+                    replaceOnStream(zipInputStream, zipOutputStream, dataMap);
+                }
             }
+        }catch (IOException ioe){
+            throw ioe;
+        }finally {
+            try{ zipOutputStream.close(); } catch (Exception e){}
+            try{ zipInputStream.close(); } catch (Exception e){}
         }
     }
 
@@ -222,6 +239,7 @@ public class FactoryExeHelper {
 
                 if (idx == readSize -1){
                     os.write(data, dataStartIdx, readSize - dataStartIdx);
+                    dataStartIdx = 0;
                 }else if(scanTempSubject && data[idx] == Process.POSTFIX_MARK) {
                     tempSubject[tempSubjectIdx] = data[idx];
 
