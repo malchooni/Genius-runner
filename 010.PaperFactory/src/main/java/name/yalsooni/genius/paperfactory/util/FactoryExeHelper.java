@@ -64,7 +64,7 @@ public class FactoryExeHelper {
 
             values = tempData.get(rowNum);
 
-            Log.console("ROW NUMBER : "+ (rowNum+1));
+            Log.console("ROW NUMBER : "+ (rowNum+1) + ", Start Replace.");
 
             if(values.size() < ExcelReadIdx.DATA_COLS_TARGET_IDX){
                 continue;
@@ -111,6 +111,7 @@ public class FactoryExeHelper {
                     continue;
                 }
             }
+            Log.console(values);
         }
     }
 
