@@ -7,7 +7,7 @@ public interface ExcelReadIdx {
 
     int TEMP_ID = 0;
     int TEMP_DIR = 1;
-    int TEMP_TARGET = 3;
+    int TEMP_TARGET = 2;
 
     String TARGET = "T";
 
