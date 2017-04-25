@@ -57,13 +57,15 @@
 
 - 010_paperfactory.list 파일에 정의된 필터 목록을 지정한다.
 
-> Column Name = Filter class
-
 ![TemplateID-Data](https://github.com/yalsooni/Genius/blob/master/op/img/010/010_filter.png)
+
+> Column Name = Filter class
 
 ~~~
 ﻿ADDRESS_F = name.yalsooni.genius.pf.filter.AddressFilter
 ~~~
+
+> 예제 소스
 
 ~~~java
 package name.yalsooni.genius.pf.filter;
