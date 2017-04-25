@@ -1,6 +1,7 @@
 # Genius - 010. PaperFactory
 
 템플릿 문서와 데이터 엑셀을 기반으로 새로운 파일을 생성하는 유틸이다.
+* [Download](https://github.com/yalsooni/Genius/releases/tag/v1.0)
 
 ~~~
 지원 확장자 : xlsx, docx, pptx, 기타 텍스트 파일 (txt, xml, html ....)
