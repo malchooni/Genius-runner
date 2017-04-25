@@ -80,7 +80,7 @@ public class FactoryExeHelper {
                     String filePath = null;
                     String fileName;
 
-                    // @ 기준으로 왼쪽은 아웃풋 패스 + 하위 디렉토리, 오른쪽은 파일 이름이 됌.
+                    // @ 기준으로 왼쪽은 아웃풋 패스 + 하위 디렉토리, 오른쪽은 파일 이름이 됨.
                     String[] splitFileName = tempFileName.split("@");
 
                     // 파일 경로 및 이름 치환
@@ -104,7 +104,7 @@ public class FactoryExeHelper {
 
                     Map<String,String> dataMap = FactoryExeUtil.listToMapMerge(subject, values);
                     // 아웃풋 파일 생성.
-                    replaceFileData(tempDir + "/" + tempFileName, filePath + "/" + fileName, dataMap);
+                    replaceFileData(service, tempDir + "/" + tempFileName, filePath + "/" + fileName, dataMap);
 
                 }catch (Exception e){
                     Log.console(Code.G_010_0009, e);
@@ -128,25 +128,25 @@ public class FactoryExeHelper {
 
         String key = null;
         String value = null;
-        Object obj = null;
+        PaperFactoryFilter filter = null;
 
         for(int j=ExcelReadIdx.DATA_COLS_START_IDX; j<values.size(); j++){
 
             key = subject.get(j);
 
-            obj = service.getFilterInstanceMap().get(key);
-            if(obj == null){
+            filter = (PaperFactoryFilter) service.getFilterInstanceMap().get(key);
+            if(filter == null){
                 value = values.get(j);
             }else{
                 try{
-                    value = ((PaperFactoryFilter) obj).replace(values.get(j));
+                    value = filter.replace(values.get(j));
                 }catch(Exception e){
                     throw new Exception(Code.G_010_0007 + " : " + e.getMessage(), e);
                 }
             }
 
             try{
-                targetTemp = targetTemp.replace("\\["+key+"\\]", value);
+                targetTemp = targetTemp.replace("["+key+"]", value);
             }catch (Exception e){
                 throw new Exception(Code.G_010_0008 + "COLUMN NUMBER : "+(j+1)+", KEY : "+key+", VALUE : "+ value, e);
             }
@@ -162,7 +162,7 @@ public class FactoryExeHelper {
      * @param dataMap
      * @throws Exception
      */
-    private static void replaceFileData(String templateFilePath , String newFilePath, Map<String,String> dataMap) throws Exception {
+    private static void replaceFileData(PaperFactoryService service, String templateFilePath , String newFilePath, Map<String,String> dataMap) throws Exception {
 
         FileInputStream tempInput = null;
         FileOutputStream targetOutput = null;
@@ -172,9 +172,9 @@ public class FactoryExeHelper {
             targetOutput = new FileOutputStream(new File(newFilePath));
 
             if (FactoryExeUtil.isCompressedXML(templateFilePath)) {
-                replaceOnZipStream(tempInput, targetOutput, dataMap);
+                replaceOnZipStream(service, tempInput, targetOutput, dataMap);
             } else {
-                replaceOnStream(tempInput, targetOutput, dataMap);
+                replaceOnStream(service, tempInput, targetOutput, dataMap);
             }
         }catch (FileNotFoundException fnfe){
             fnfe.printStackTrace();
@@ -195,7 +195,7 @@ public class FactoryExeHelper {
      * @param dataMap
      * @throws IOException
      */
-    private static void replaceOnZipStream(InputStream is, OutputStream  os, Map<String,String> dataMap) throws IOException {
+    private static void replaceOnZipStream(PaperFactoryService service, InputStream is, OutputStream  os, Map<String,String> dataMap) throws IOException {
 
         ZipInputStream zipInputStream = null;
         ZipOutputStream zipOutputStream = null;
@@ -212,7 +212,7 @@ public class FactoryExeHelper {
                 zipOutputStream.putNextEntry(newZentry);
 
                 if (!zentry.isDirectory()) {
-                    replaceOnStream(zipInputStream, zipOutputStream, dataMap);
+                    replaceOnStream(service, zipInputStream, zipOutputStream, dataMap);
                 }
             }
         }catch (IOException ioe){
@@ -223,7 +223,7 @@ public class FactoryExeHelper {
         }
     }
 
-    private static void replaceOnStream(InputStream is, OutputStream  os, Map<String,String> dataMap) throws IOException {
+    private static void replaceOnStream(PaperFactoryService service, InputStream is, OutputStream  os, Map<String,String> dataMap) throws IOException {
 
         byte[] data = new byte[Process.BYTE_PACKET_SIZE];
         byte[] tempSubject = new byte[Process.LIMIT_SUBJECT_BYTE_SIZE + 2];
@@ -234,24 +234,39 @@ public class FactoryExeHelper {
 
         boolean scanTempSubject = false;
 
+
+
         while ((readSize = is.read(data)) != -1) {
 
             for(int idx=0; idx < readSize; idx++){
 
-                if (idx == readSize -1){
+                if (scanTempSubject == false && idx == readSize -1){
                     os.write(data, dataStartIdx, readSize - dataStartIdx);
                     dataStartIdx = 0;
                 }else if(scanTempSubject && data[idx] == Process.POSTFIX_MARK) {
                     tempSubject[tempSubjectIdx] = data[idx];
 
-                    String value = dataMap.get(new String(tempSubject, 1, tempSubjectIdx - 1));
+                    String key = new String(tempSubject, 1, tempSubjectIdx - 1);
+                    String value = dataMap.get(key);
+
                     if(value != null){
+
+                        PaperFactoryFilter filter = (PaperFactoryFilter) service.getFilterInstanceMap().get(key);
+
+                        if(filter != null){
+                            try {
+                                value = filter.replace(value);
+                            } catch (Exception e) {
+                                Log.console(Code.G_010_0010, e);
+                            }
+                        }
+
                         os.write(value.getBytes());
                     }else{
                         os.write(tempSubject, 0, tempSubjectIdx + 1);
                     }
 
-                    dataStartIdx = idx + 1;
+                    dataStartIdx = (readSize == idx + 1) ? 0 : idx + 1;
                     tempSubjectIdx = 0;
                     scanTempSubject = false;
 
@@ -259,16 +274,15 @@ public class FactoryExeHelper {
                     tempSubject[tempSubjectIdx] = data[idx];
                     os.write(tempSubject, 0, tempSubject.length);
 
-                    dataStartIdx = idx + 1;
+                    dataStartIdx = (readSize == idx + 1) ? 0 : idx + 1;
 
                     tempSubjectIdx = 0;
                     scanTempSubject = false;
 
                 }else if (scanTempSubject && data[idx] == Process.PREFIX_MARK){
-
                     os.write(tempSubject, 0, tempSubjectIdx);
 
-                    dataStartIdx = idx + 1;
+                    dataStartIdx = (readSize == idx + 1) ? 0 : idx + 1;
                     tempSubjectIdx = 0;
                     tempSubject[tempSubjectIdx++] = data[idx];
 
@@ -287,26 +301,5 @@ public class FactoryExeHelper {
         }
 
         os.flush();
-    }
-
-    public static void main(String[] args){
-
-        List<String> subject = new ArrayList<String>();
-        List<String> values = new ArrayList<String>();
-
-        subject.add("NAME");
-        subject.add("AGE");
-        values.add("윤일중");
-        values.add("33");
-
-        Map<String, String> dataMap = FactoryExeUtil.listToMapMerge(subject, values);
-
-        try {
-            replaceFileData("/Users/ijyoon/Desktop/1.txt","/Users/ijyoon/Desktop/2.txt", dataMap);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("done");
     }
 }
