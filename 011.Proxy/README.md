@@ -17,19 +17,14 @@
  * 바이너리 실행
 ~~~
 $GENIUS_HOME/bin/genius.sh OR genius.cmd 실행
+Project ID : 011
+Entry List 
+ - ioBind(int listen port, String target, int target port)
 ~~~
 
  * 바로 실행 만들기 
  
- argument 값을 shell script에 미리 입력한다.
- 
- ex) 011 ioBind 7070,localhost,8080
- 
- genius.sh OR genius.cmd 수정.
-
 ~~~
-java -DMETA_PATH=../property/meta.data \
--cp ../lib/genius-commons/genius001-util.jar\
-:../lib/genius-commons/genius002-boothelper.jar \
-name.yalsooni.genius.boothelper.Run 011 ioBind 7070,localhost,8080
+$GENIUS_HOME/bin/genius.sh 011 ioBind 7070,localhost,8080
+$GENIUS_HOME/bin/genius.cmd 011 ioBind 7070,localhost,8080
 ~~~
