@@ -34,13 +34,13 @@ public class DataPipe extends Thread {
     @Override
     public void run() {
 
-        boolean availableStream;
+        boolean availableStream = true;
+        int readSize = 0;
 
         try {
-            while (true) {
-                availableStream = DataPipeUtil.dataProcessing(direction, is, os);
-                if (!availableStream) {
-                    break;
+            while (availableStream) {
+                if(DataPipeUtil.streamPass(is, os) < 1){
+                    availableStream = false;
                 }
             }
         }catch (SocketException se){
