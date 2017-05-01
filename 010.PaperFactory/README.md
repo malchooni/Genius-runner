@@ -145,3 +145,7 @@ $GENIUS_HOME/bin/genius.cmd 010 replaceDefault
 ## 6. 결과
 
 ![result](https://github.com/yalsooni/Genius/blob/master/op/img/010/010_result.png)
+
+
+
+[시연화면](https://youtu.be/TkhFibd4DhQ)
