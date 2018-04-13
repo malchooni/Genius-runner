@@ -1,4 +1,0 @@
-# Meta Data Set
-CLASSNAME.EXE.MAIN      = name.yalsooni.genius.test.ExecuteClass
-PATH.PROPERTY.ROOT      = ../property
-PATH.LIB.ROOT           = /Users/ijyoon/Giet/Genius/out/artifacts/genius002_TestExecute
