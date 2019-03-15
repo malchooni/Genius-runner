@@ -3,6 +3,7 @@ package name.yalsooni.genius.core.util.jdbc.vo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Map;
 
 /**
  * JDBC 연결 정보를 담는 VO.
@@ -17,7 +18,7 @@ public class JDBCConnectInfo {
 	private String jdbcURL;
 	private String userName;
 	private String password;
-	
+
 	/**
 	 * 커네셕 객체를 반환한다.
 	 * @return

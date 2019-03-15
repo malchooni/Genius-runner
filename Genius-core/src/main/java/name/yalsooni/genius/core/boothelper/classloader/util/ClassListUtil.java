@@ -2,7 +2,7 @@ package name.yalsooni.genius.core.boothelper.classloader.util;
 
 
 
-import name.yalsooni.genius.core.boothelper.util.Log;
+import name.yalsooni.genius.core.util.Log;
 
 import java.io.File;
 import java.net.MalformedURLException;

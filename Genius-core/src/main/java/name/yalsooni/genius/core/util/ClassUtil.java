@@ -33,7 +33,7 @@ public class ClassUtil {
 			key = (String) iter.next();
 			className = list.getProperty(key);
 			try {
-				result.put(key, this.makeInstance(className));
+				result.put(key, this.newInstance(className));
 			} catch (Exception e) {
 				throw e;
 			} 
@@ -51,9 +51,9 @@ public class ClassUtil {
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	public Object makeInstance(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+	public <T>T newInstance(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
 		Class<?> klass = Class.forName(className);
-		return klass.newInstance();
+		return (T) klass.newInstance();
 	}
 	
 	

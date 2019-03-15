@@ -55,15 +55,7 @@ public class JDBCHelper {
 		return reuslt;
 	}
 	
-	/**
-	 * 
-	 * @param jdbcInfo
-	 * @param sql
-	 * @param parameters
-	 * @return
-	 * @throws SQLException
-	 */
-	public List<String> getResultList(JDBCConnectInfo jdbcInfo, String sql, String[] parameters) throws SQLException{
+	public List<String> getResultList(JDBCConnectInfo jdbcInfo, String sql, String[] parameters) throws Exception {
 		
 		
 		Connection connection = null;
@@ -86,6 +78,8 @@ public class JDBCHelper {
 			}
 			
 		} catch (SQLException e) {
+			throw e;
+		} catch (NullPointerException e){
 			throw e;
 		} finally {
 			if(rs != null) try {rs.close();} catch(SQLException e){}
@@ -176,13 +170,6 @@ public class JDBCHelper {
 	 * @throws SQLException
 	 */
 	public Map<String, Map<String,String>> getColumnInfo(Connection conn, String tableName) throws SQLException{
-		
-//		ResultSetMetaData rsmd = rs.getMetaData();
-//			
-//		columnInfo.put("columnType", rsmd.getColumnTypeName(i));
-//		columnInfo.put("columnSize", String.valueOf(rsmd.getColumnDisplaySize(i)));
-//		columnInfo.put("columnNullable", rsmd.isNullable(column) );
-//		result.put(columnName, columnInfo);
 		
 		DatabaseMetaData data = conn.getMetaData();
 		ResultSet rs = data.getColumns(null, null, tableName, "%");
