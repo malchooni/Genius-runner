@@ -16,7 +16,7 @@ public class OutputManager {
      * @param delegateList
      */
     public static void printDelegateList(DelegateList delegateList){
-        Log.console(" - Genius v1.0 Service List");
+        Log.console(" - Genius v2.0 Service List");
         String[] listArr = delegateList.getList();
         DelegateDTO dto;
 

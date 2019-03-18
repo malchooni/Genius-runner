@@ -43,7 +43,7 @@ public class GeniusExecutor {
      */
     private void initialization(String[] args) throws Exception {
 
-        Log.console(" - Genius v1.0 Initializing...");
+        Log.console(" - Genius v2.0 Initializing...");
 
         try{
             this.arguments = args;
@@ -54,7 +54,7 @@ public class GeniusExecutor {
             throw new Exception(ErrCode.G_003_0001,e);
         }
 
-        Log.console(" - Genius v1.0 Initialization done.");
+        Log.console(" - Genius v2.0 Initialization done.");
     }
 
     /**
@@ -127,7 +127,7 @@ public class GeniusExecutor {
             throw e;
         }
 
-        Log.console(" - Genius v1.0 Execute done.");
+        Log.console(" - Genius v2.0 Execute done.");
     }
 
     /**
