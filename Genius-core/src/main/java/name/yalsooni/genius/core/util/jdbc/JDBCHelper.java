@@ -47,6 +47,8 @@ public class JDBCHelper {
 			
 		} catch (SQLException e) {
 			throw e;
+		} catch (NullPointerException ne){
+			throw new NullPointerException("not found JDBC connection info");
 		} finally {
 			if(rs != null) try {rs.close();} catch(SQLException e){}
 			if(ps != null) try {ps.close();} catch(SQLException e){}
