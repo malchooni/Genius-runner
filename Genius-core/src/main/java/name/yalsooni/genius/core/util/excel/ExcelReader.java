@@ -11,8 +11,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 엑셀파일을 읽어 정보를 반환한다.
@@ -112,6 +114,33 @@ public class ExcelReader {
         }
 
         return this.getData(sheet, startRowIdx, startColIdx);
+    }
+
+    public LinkedList<Map<String,String>> getDataMap(String sheetName, int startRowIdx, int startColIdx, int subjectRowIdx){
+
+        LinkedList<Map<String,String>> result = new LinkedList<>();
+        List<List<String>> allData = getData(sheetName, startRowIdx, startColIdx);
+        List<String> subjectData = allData.get(subjectRowIdx);
+
+        for(int i=0; i < allData.size(); i++){
+
+            if( i == subjectRowIdx ){
+                continue;
+            }
+
+            List<String> data = allData.get(i);
+
+            int dataIdx = 0;
+            Map<String, String> row = new HashMap<>();
+            for(String column: subjectData){
+                row.put(column, data.get(dataIdx));
+                dataIdx++;
+            }
+
+            result.add(row);
+        }
+
+        return result;
     }
 
     /**
