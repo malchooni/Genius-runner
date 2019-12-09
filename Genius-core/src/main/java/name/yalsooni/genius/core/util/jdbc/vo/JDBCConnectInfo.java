@@ -3,7 +3,6 @@ package name.yalsooni.genius.core.util.jdbc.vo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
 
 /**
  * JDBC 연결 정보를 담는 VO.

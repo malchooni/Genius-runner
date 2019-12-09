@@ -63,7 +63,7 @@ public class JDBCHelper {
 		Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<String> reuslt = new ArrayList<String>();
+		List<String> reuslt = new LinkedList<>();
 		
 		try {
 			connection = jdbcInfo.getConnection();			
@@ -96,7 +96,7 @@ public class JDBCHelper {
 		Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Map<String, String>> reuslt = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> reuslt = new LinkedList<>();
 		
 		try {
 			connection = jdbcInfo.getConnection();			
