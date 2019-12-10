@@ -24,7 +24,8 @@ public class GeniusClassLoader {
         BootHelper parentBootHelper = BootHelperRepository.getBootHelper();
 
         if(parentBootHelper != null){
-            urlClassLoader = new URLClassLoader(urls, parentBootHelper.getClassLoader() );
+//            urlClassLoader = new URLClassLoader(urls, parentBootHelper.getClassLoader() );
+            urlClassLoader = (URLClassLoader) parentBootHelper.getClassLoader();
         }else{
             urlClassLoader = new URLClassLoader(urls);
         }
