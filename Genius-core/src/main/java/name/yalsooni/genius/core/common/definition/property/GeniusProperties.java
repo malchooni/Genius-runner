@@ -31,7 +31,7 @@ public class GeniusProperties {
     public GeniusProperties() throws Exception {
         this.reader = new PropertyReader();
 
-        String genius_property = System.getProperty(JAVA_OPTION_NAME, GENIUS_DEFAULT_PROPERTY_FILEPATH);
+        String genius_property = System.getProperty(JAVA_OPTION_NAME);
 
         if(genius_property != null){
             this.reader.read(GeniusExecutor.GENIUS, genius_property);
