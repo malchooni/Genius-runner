@@ -75,7 +75,7 @@ public class BootHelperUtil {
         try{
             String libRootPath = bootHelper.getPropertyReader().get(PropertyName.META, PropertyName.LIB_ROOT_PATH);
             JarLoader loader = bootHelper.createInstanceJarLoader(libRootPath);
-            loader.load(ClassLoader.getSystemClassLoader());
+//            loader.load(ClassLoader.getSystemClassLoader());
             loader.loadSystemClassloader();
         }catch (Exception e){
             throw new Exception(Code.BH_0004,e);

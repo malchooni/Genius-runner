@@ -20,7 +20,7 @@ public class GeniusProperties {
      * 지니어스 기본 프로퍼티 파일 경로
      */
     private final String GENIUS_DEFAULT_PROPERTY_FILEPATH = "../property/genius.meta";
-    private final String GENIUS_DEFAULT_LIB_PATH = "../lib/genius";
+    private final String GENIUS_DEFAULT_LIB_PATH = "../lib-genius";
 
     /**
      * 어노테이션 라이브러리 경로
@@ -31,7 +31,7 @@ public class GeniusProperties {
     public GeniusProperties() throws Exception {
         this.reader = new PropertyReader();
 
-        String genius_property = System.getProperty(JAVA_OPTION_NAME);
+        String genius_property = System.getProperty(JAVA_OPTION_NAME, GENIUS_DEFAULT_PROPERTY_FILEPATH);
 
         if(genius_property != null){
             this.reader.read(GeniusExecutor.GENIUS, genius_property);

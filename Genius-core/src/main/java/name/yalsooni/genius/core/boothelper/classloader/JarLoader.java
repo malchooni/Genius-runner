@@ -112,6 +112,10 @@ public class JarLoader {
         }
         Log.console(" == "+loadCnt+" JAR File loaded. == ");
 
+        if(this.classLoader == null){
+            this.classLoader = urlClassLoader;
+        }
+
         return this.classLoader;
     }
 
