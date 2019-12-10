@@ -24,7 +24,7 @@ public class ClassListUtil {
             try {
                 url = file.toURI().toURL();
                 urlList.add(url);
-                Log.console(url.toString());
+//                Log.console(url.toString());
 
             } catch (MalformedURLException e) {
                 Log.console("File name : "+ file.getName(),e);
