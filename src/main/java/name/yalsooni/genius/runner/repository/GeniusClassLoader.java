@@ -1,10 +1,5 @@
 package name.yalsooni.genius.runner.repository;
 
-<<<<<<< HEAD
-import name.yalsooni.boothelper.execute.BootHelper;
-import name.yalsooni.boothelper.repository.BootHelperRepository;
-=======
->>>>>>> develop
 import name.yalsooni.boothelper.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
@@ -29,42 +24,6 @@ public class GeniusClassLoader {
         urls = urls_;
         urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
 
-<<<<<<< HEAD
-        if(parentBootHelper != null){
-//            urlClassLoader = new URLClassLoader(urls, parentBootHelper.getClassLoader() );
-            urlClassLoader = (URLClassLoader) parentBootHelper.getClassLoader();
-
-            Method addURLMethod = null;
-
-            int loadCnt = 0;
-
-            Log.console(" == JAR File load. == ");
-
-            try {
-                addURLMethod = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
-                addURLMethod.setAccessible(true);
-            } catch (NoSuchMethodException e) {
-                Log.console(e);
-            }
-
-            for(URL url : urls_){
-                try {
-                    addURLMethod.invoke(urlClassLoader, new Object[]{url});
-                } catch (IllegalAccessException e) {
-                    Log.console(e);
-                } catch (InvocationTargetException e) {
-                    Log.console(e);
-                }
-                loadCnt++;
-
-                Log.console(url.toString());
-            }
-
-            Log.console(" == "+loadCnt+" JAR File loaded. == ");
-
-        }else{
-            urlClassLoader = new URLClassLoader(urls);
-=======
         Method addURLMethod = null;
 
         int loadCnt = 0;
@@ -76,7 +35,6 @@ public class GeniusClassLoader {
             addURLMethod.setAccessible(true);
         } catch (NoSuchMethodException e) {
             Log.console(e);
->>>>>>> develop
         }
 
         for(URL url : urls_){
