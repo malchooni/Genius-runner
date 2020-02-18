@@ -1,1 +1,2 @@
-- github : https://github.com/yalsooni/Genius
+- email : hello@yalsooni.name
+- github : https://github.com/yalsooni/Genius-runner
