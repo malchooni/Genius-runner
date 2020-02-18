@@ -2,6 +2,7 @@ package name.yalsooni.genius.runner.execute;
 
 import name.yalsooni.boothelper.util.Log;
 import name.yalsooni.genius.runner.definition.ErrCode;
+import name.yalsooni.genius.runner.definition.Version;
 import name.yalsooni.genius.runner.definition.property.GeniusProperties;
 import name.yalsooni.genius.runner.delegate.helper.GeniusDelegateEjector;
 import name.yalsooni.genius.runner.delegate.vo.DelegateDTO;
@@ -43,7 +44,7 @@ public class GeniusExecutor {
      */
     private void initialization(String[] args) throws Exception {
 
-        Log.console(" - Genius v2.0 Initializing...");
+        Log.console(" - Genius "+ Version.INFO+" Initializing...");
 
         try{
             this.arguments = args;
@@ -54,7 +55,7 @@ public class GeniusExecutor {
             throw new Exception(ErrCode.G_003_0001,e);
         }
 
-        Log.console(" - Genius v2.0 Initialization done.");
+        Log.console(" - Genius "+ Version.INFO+" Initialization done.");
     }
 
     /**
@@ -127,7 +128,7 @@ public class GeniusExecutor {
             throw e;
         }
 
-        Log.console(" - Genius v2.0 Execute done.");
+        Log.console(" - Genius "+ Version.INFO+" Execute done.");
     }
 
     /**

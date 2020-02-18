@@ -17,30 +17,11 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-dependency-plugin</artifactId>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>copy-dependencies</id>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>copy-dependencies</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--<outputDirectory>${project.basedir}/genius2.0/lib</outputDirectory>-->
-                    <!--<overWriteReleases>false</overWriteReleases>-->
-                    <!--<overWriteSnapshots>false</overWriteSnapshots>-->
-                    <!--<overWriteIfNewer>true</overWriteIfNewer>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <outputDirectory>${project.basedir}/genius2.0/lib</outputDirectory>
+                    <outputDirectory>genius/lib</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
@@ -50,7 +31,7 @@
                 <includes>
                     <include>*</include>
                 </includes>
-                <targetPath>${project.basedir}/genius2.0/property</targetPath>
+                <targetPath>genius/property</targetPath>
             </resource>
         </resources>
     </build>

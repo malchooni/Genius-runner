@@ -1,6 +1,7 @@
 package name.yalsooni.genius.runner.inout.output;
 
 import name.yalsooni.boothelper.util.Log;
+import name.yalsooni.genius.runner.definition.Version;
 import name.yalsooni.genius.runner.delegate.vo.DelegateDTO;
 import name.yalsooni.genius.runner.delegate.vo.EntryDTO;
 import name.yalsooni.genius.runner.repository.DelegateList;
@@ -16,7 +17,7 @@ public class OutputManager {
      * @param delegateList
      */
     public static void printDelegateList(DelegateList delegateList){
-        Log.console(" - Genius v2.0 Service List");
+        Log.console(" - Genius "+ Version.INFO+" Service List");
         String[] listArr = delegateList.getList();
         DelegateDTO dto;
 
