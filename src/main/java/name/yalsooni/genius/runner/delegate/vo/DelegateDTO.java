@@ -12,7 +12,7 @@ public class DelegateDTO {
     private String id;
     private String name;
     private String serviceType;
-    private Map<String, EntryDTO> entryMap = new HashMap<String, EntryDTO>();
+    private Map<String, EntryDTO> entryMap = new HashMap<>();
     private Class klass;
 
     public DelegateDTO(String id) {
@@ -21,7 +21,7 @@ public class DelegateDTO {
 
     /**
      * 엔트리를 추가한다.
-     * @param entry
+     * @param entry 엔트리 정보
      */
     public void addEntry(EntryDTO entry){
         this.entryMap.put(entry.getName(), entry);
@@ -29,8 +29,8 @@ public class DelegateDTO {
 
     /**
      * 엔트리 정보 반환
-     * @param entryName
-     * @return
+     * @param entryName 엔트리 이름
+     * @return EntryDTO 엔트리 정보
      */
     public EntryDTO getEntry(String entryName){
         EntryDTO[] entryList = getEntrys();
@@ -44,15 +44,15 @@ public class DelegateDTO {
 
     /**
      * 엔트리 배열을 반환한다.
-     * @return
+     * @return EntryDTO 목록
      */
     public EntryDTO[] getEntrys(){
-        return entryMap.values().toArray(new EntryDTO[entryMap.size()]);
+        return this.entryMap.values().toArray(new EntryDTO[entryMap.size()]);
     }
 
     /**
      * 딜리게이트의 아이디를 반환한다.
-     * @return
+     * @return delegate id
      */
     public String getId() {
         return id;
@@ -60,7 +60,7 @@ public class DelegateDTO {
 
     /**
      * 딜리게이트 이름을 반환한다.
-     * @return
+     * @return delegate name
      */
     public String getName() {
         return name;
@@ -68,7 +68,7 @@ public class DelegateDTO {
 
     /**
      * 딜리게이트의 서비스타입을 반환한다.
-     * @return
+     * @return delegate service type
      */
     public String getServiceType() {
         return serviceType;
@@ -76,7 +76,7 @@ public class DelegateDTO {
 
     /**
      * 딜리게이트의 서비스 타입을 입력한다.
-     * @param serviceType
+     * @param serviceType 서비스 타입
      */
     public void setServiceType(String serviceType) {
         this.serviceType = serviceType;
@@ -84,7 +84,7 @@ public class DelegateDTO {
 
     /**
      * 딜리게이트의 클래스를 반환한다.
-     * @return
+     * @return delegate class
      */
     public Class getKlass() {
         return klass;
@@ -92,7 +92,7 @@ public class DelegateDTO {
 
     /**
      * 딜리게이트 클래스를 입력한다.
-     * @param klass
+     * @param klass set delegate class
      */
     public void setKlass(Class klass) {
         this.klass = klass;
