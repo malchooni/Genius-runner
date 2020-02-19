@@ -28,7 +28,7 @@ public class GeniusDelegateEjector {
      * @param gProperties 지니어스 프로퍼티
      * @return DelegateList
      */
-    public DelegateList eject(GeniusProperties gProperties){
+    public DelegateList eject(GeniusProperties gProperties) throws Exception {
 
         DelegateList result = new DelegateList();
         GeniusClassLoader.setUrls(ClassListUtil.getURLArray( fileSearch.getFileList(gProperties.getAnnotationLibRootPath())));
