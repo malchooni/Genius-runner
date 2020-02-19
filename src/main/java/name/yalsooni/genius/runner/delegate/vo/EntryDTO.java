@@ -1,7 +1,7 @@
 package name.yalsooni.genius.runner.delegate.vo;
 
 
-import name.yalsooni.genius.runner.exception.InvalidParameterValueTypeException;
+import name.yalsooni.genius.runner.definition.ErrCode;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -25,9 +25,9 @@ public class EntryDTO {
 
     /**
      * 엔트리(메소드)의 파라미터 타입을 입력한다.
-     * @param parameterTypesClass
+     * @param parameterTypesClass parameterTypesClass
      */
-    public void setParameterTypes(Class[] parameterTypesClass) {
+    private void setParameterTypes(Class[] parameterTypesClass) {
 
         this.parameterTypes = new String[parameterTypesClass.length];
 
@@ -38,23 +38,15 @@ public class EntryDTO {
 
     /**
      * 엔트리(메소드)의 이름을 반환한다.
-     * @return
+     * @return method name
      */
     public String getName() {
         return this.method.getName();
     }
 
     /**
-     * 엔트리(메소드)의 파라미터 데이터 타입을 반환한다.
-     * @return
-     */
-    public String[] getParameterTypes() {
-        return parameterTypes;
-    }
-
-    /**
      * 메소드를 반환한다.
-     * @return
+     * @return method name
      */
     public Method getMethod() {
         return method;
@@ -62,76 +54,73 @@ public class EntryDTO {
 
     /**
      * 엔트리(메소드)의 파라미터 존재 유무를 반환한다.
-     * @return
+     * @return isParameter
      */
     public boolean isParameter(){
         Class[] parameters = this.method.getParameterTypes();
-
-        if(parameters != null && parameters.length > 0){
-            return true;
-        }else{
-            return false;
-        }
+        return parameters != null && parameters.length > 0;
     }
 
     /**
      * 엔트리(메소드)의 파라미터 값을 입력한다.
-     * @param parameterValues
-     * @throws InvalidParameterValueTypeException
+     * @param parameterValues parameter value
+     * @throws Exception ErrCode.GR_E005
      */
-    public void setParameterValues(String parameterValues) throws InvalidParameterValueTypeException {
+    public void setParameterValues(String parameterValues) throws Exception {
 
-        List<Object> result = new ArrayList<Object>();
+        List<Object> result = new ArrayList<>();
         String[] values = parameterValues.split(",");
 
         try{
             for(int i=0; i < values.length; i++){
-                if(this.parameterTypes[i].equals("java.lang.String")){
-                    result.add(values[i]);
-                }else if(this.parameterTypes[i].equals("boolean")){
-                    result.add(Boolean.parseBoolean(values[i]));
-                }else if(this.parameterTypes[i].equals("char")){
-                    result.add(values[i].charAt(0));
-                }else if(this.parameterTypes[i].equals("byte")){
-                    result.add(Byte.parseByte(values[i], 0));
-                }else if(this.parameterTypes[i].equals("short")){
-                    result.add(Short.parseShort(values[i]));
-                }else if(this.parameterTypes[i].equals("int")){
-                    result.add(Integer.parseInt(values[i]));
-                }else if(this.parameterTypes[i].equals("long")){
-                    result.add(Long.parseLong(values[i]));
-                }else if(this.parameterTypes[i].equals("float")){
-                    result.add(Float.parseFloat(values[i]));
-                }else if(this.parameterTypes[i].equals("double")){
-                    result.add(Double.parseDouble(values[i]));
+                switch (this.parameterTypes[i]) {
+                    case "java.lang.String":
+                        result.add(values[i]);
+                        break;
+                    case "boolean":
+                        result.add(Boolean.parseBoolean(values[i]));
+                        break;
+                    case "char":
+                        result.add(values[i].charAt(0));
+                        break;
+                    case "byte":
+                        result.add(Byte.parseByte(values[i], 0));
+                        break;
+                    case "short":
+                        result.add(Short.parseShort(values[i]));
+                        break;
+                    case "int":
+                        result.add(Integer.parseInt(values[i]));
+                        break;
+                    case "long":
+                        result.add(Long.parseLong(values[i]));
+                        break;
+                    case "float":
+                        result.add(Float.parseFloat(values[i]));
+                        break;
+                    case "double":
+                        result.add(Double.parseDouble(values[i]));
+                        break;
                 }
             }
         }catch (Exception e){
-            throw new InvalidParameterValueTypeException(e);
+            throw new Exception(ErrCode.GR_E005,e);
         }
 
-        parameterObject = result.toArray(new Object[result.size()]);
+        this.parameterObject = result.stream().toArray(n -> new Object[n]);
     }
 
     /**
      * 엔트리(메소드)의 파라미터 값을 Object 배열로 반환한다.
-     * @return
+     * @return parameter array
      */
     public Object[] getParameterObject() {
-        return parameterObject;
+        return this.parameterObject;
     }
 
     /**
      * 인자값 설명이 담긴 배열
-     * @return
-     */
-    public String[] getArguments() {
-        return arguments;
-    }
-
-    /**
-     * 인자값 설명이 담긴 배열
-     * @return
+     * @return argu description
      */
     public String getArguments(int arrIdx) {
         String msg;
@@ -146,7 +135,7 @@ public class EntryDTO {
 
     /**
      * 인자값 설명 적재
-     * @param arguments
+     * @param arguments array
      */
     public void setArguments(String[] arguments) {
         this.arguments = arguments;
@@ -154,7 +143,7 @@ public class EntryDTO {
 
     /**
      * 엔트리(메소드) 정보를 반환한다.
-     * @return
+     * @return method name
      */
     public String toStringMethod(){
         return "method name : "+method.toString();
@@ -162,9 +151,9 @@ public class EntryDTO {
 
     /**
      * 엔트리(인수값) 정보를 반환한다.
-     * @return
+     * @return entry info
      */
-    public String toStringArguments(){
+    public String toString(){
         StringBuilder methodInfo = new StringBuilder();
         int argumentLength = arguments.length;
 

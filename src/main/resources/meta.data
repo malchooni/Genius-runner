@@ -1,4 +1,6 @@
-# Meta Data Set
+# yalsooni-boothelper-v1.0.1 property
+#     -> JAVA OPTION : -DMETA_PATH= {PATH}
+
 CLASSNAME.EXE.MAIN      = name.yalsooni.genius.runner.execute.GeniusExecutor
 PATH.PROPERTY.ROOT      = ../property
 PATH.LIB.ROOT           = ../lib

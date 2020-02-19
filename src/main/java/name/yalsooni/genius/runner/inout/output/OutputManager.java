@@ -14,7 +14,7 @@ public class OutputManager {
 
     /**
      * 딜리게이트 목록 출력
-     * @param delegateList
+     * @param delegateList 딜리게이트 목록
      */
     public static void printDelegateList(DelegateList delegateList){
         Log.console(" - Genius "+ Version.INFO+" Service List");
@@ -29,7 +29,7 @@ public class OutputManager {
 
     /**
      * 엔트리 목록 출력
-     * @param delegateDTO
+     * @param delegateDTO delegate info
      */
     public static void printEntryList(DelegateDTO delegateDTO){
         Log.console(" - ["+delegateDTO.getId()+" "+delegateDTO.getName() + "] entry list.");
@@ -42,7 +42,7 @@ public class OutputManager {
 
     /**
      * 파라미터의 데이터 타입을 출력한다.
-     * @param entryDTO
+     * @param entryDTO entry info
      */
     public static void printParameters(EntryDTO entryDTO){
         Class[] parameters = entryDTO.getMethod().getParameterTypes();
