@@ -59,7 +59,7 @@ public class GeniusExecutor {
             serviceID = this.arguments[SERVICE_ID];
         }
 
-        if(serviceID == null || serviceID.length() != 3){
+        if(serviceID == null){
             Log.console(ErrCode.GR_E001);
             return;
         }
