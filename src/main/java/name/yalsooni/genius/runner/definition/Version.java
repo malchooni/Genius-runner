@@ -5,5 +5,5 @@ package name.yalsooni.genius.runner.definition;
  * Created by hello@yalsooni.name on 2020/02/10
  */
 public interface Version {
-    String INFO = "v2.1.2";
+    String INFO = "v2.2.0";
 }
