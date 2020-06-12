@@ -1,4 +1,0 @@
-# genius-runner-2.1.2 property
-#     -> JAVA OPTION : -DGENIUS_META={PATH}
-
-ANNOTATION.LIB.ROOT.PATH = ../lib-genius

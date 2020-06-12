@@ -1,9 +1,7 @@
 package name.yalsooni.genius.runner.definition.property;
 
 
-import name.yalsooni.boothelper.util.reader.PropertyReader;
 import name.yalsooni.genius.runner.definition.ErrCode;
-import name.yalsooni.genius.runner.execute.GeniusExecutor;
 
 /**
  * 지니어스 속성 값
@@ -11,27 +9,18 @@ import name.yalsooni.genius.runner.execute.GeniusExecutor;
  */
 public class GeniusProperties {
 
+    private static String SYS_LIB_PATH = "GeniusLibPath";
+
     /**
      * 어노테이션 라이브러리 경로
      */
     private String annotationLibRootPath;
 
     public GeniusProperties() throws Exception {
-        PropertyReader reader = new PropertyReader();
-
-        String genius_property = System.getProperty("GENIUS_META", "../property/genius.meta");
-        reader.read(GeniusExecutor.GENIUS, genius_property);
-        java.util.Properties properties = reader.getProperties(GeniusExecutor.GENIUS);
-
-        if(properties == null){
+        annotationLibRootPath = System.getProperty(SYS_LIB_PATH, "../lib-genius");
+        if( annotationLibRootPath == null || annotationLibRootPath.length() < 1){
             throw new Exception(ErrCode.GR_I001);
         }
-
-        String libRootPath = properties.getProperty("ANNOTATION.LIB.ROOT.PATH");
-        if( libRootPath == null || libRootPath.length() < 1){
-            throw new Exception(ErrCode.GR_I002);
-        }
-        this.annotationLibRootPath = libRootPath;
     }
 
     /**

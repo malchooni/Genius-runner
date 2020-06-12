@@ -4,6 +4,7 @@ import name.yalsooni.boothelper.classloader.ClassList;
 import name.yalsooni.boothelper.classloader.util.ClassListUtil;
 import name.yalsooni.boothelper.util.Log;
 import name.yalsooni.boothelper.util.file.ExtFileSearch;
+import name.yalsooni.genius.runner.definition.ErrCode;
 import name.yalsooni.genius.runner.definition.annotation.Delegate;
 import name.yalsooni.genius.runner.definition.annotation.Entry;
 import name.yalsooni.genius.runner.definition.property.GeniusProperties;
@@ -12,7 +13,9 @@ import name.yalsooni.genius.runner.delegate.vo.EntryDTO;
 import name.yalsooni.genius.runner.repository.DelegateList;
 import name.yalsooni.genius.runner.repository.GeniusClassLoader;
 
+import java.io.File;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,10 +31,17 @@ public class GeniusDelegateEjector {
      * @param gProperties 지니어스 프로퍼티
      * @return DelegateList
      */
-    public DelegateList eject(GeniusProperties gProperties){
+    public DelegateList eject(GeniusProperties gProperties) throws Exception {
 
         DelegateList result = new DelegateList();
-        GeniusClassLoader.setUrls(ClassListUtil.getURLArray( fileSearch.getFileList(gProperties.getAnnotationLibRootPath())));
+        try {
+            List<File> fileList = fileSearch.getFileList(gProperties.getAnnotationLibRootPath());
+            GeniusClassLoader.setUrls(ClassListUtil.getURLArray(fileList));
+        } catch (NullPointerException ne){
+            throw new Exception(ErrCode.GR_I003, ne);
+        } catch (Exception e) {
+            throw new Exception(ErrCode.GR_I002, e);
+        }
         ClassList.put(GeniusClassLoader.getUrlClassLoader(), GeniusClassLoader.getUrls());
         this.classAnalyzer(ClassList.getClassMap(), result);
 
