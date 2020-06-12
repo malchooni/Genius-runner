@@ -2,7 +2,6 @@ package name.yalsooni.genius.runner.repository;
 
 import name.yalsooni.boothelper.util.Log;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -18,9 +17,9 @@ public class GeniusClassLoader {
 
     /**
      * URL 배열을 기반으로 URLClassLoader를 생성한다.
-     * @param urls_
+     * @param urls_ url list
      */
-    public synchronized static void setUrls(URL[] urls_) {
+    public synchronized static void setUrls(URL[] urls_) throws Exception{
         urls = urls_;
         urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
 
@@ -31,22 +30,15 @@ public class GeniusClassLoader {
         Log.console(" == Genius JAR File load. == ");
 
         try {
-            addURLMethod = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
+            addURLMethod = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
             addURLMethod.setAccessible(true);
         } catch (NoSuchMethodException e) {
             Log.console(e);
         }
 
         for(URL url : urls_){
-            try {
-                addURLMethod.invoke(urlClassLoader, new Object[]{url});
-            } catch (IllegalAccessException e) {
-                Log.console(e);
-            } catch (InvocationTargetException e) {
-                Log.console(e);
-            }
+            addURLMethod.invoke(urlClassLoader, url);
             loadCnt++;
-
             Log.console(url.toString());
         }
 
@@ -55,7 +47,7 @@ public class GeniusClassLoader {
 
     /**
      * URLClassLoader 반환
-     * @return
+     * @return URLClassLoader
      */
     public static URLClassLoader getUrlClassLoader() {
         return urlClassLoader;
@@ -63,7 +55,7 @@ public class GeniusClassLoader {
 
     /**
      * URL Array 반환
-     * @return
+     * @return URL array
      */
     public static URL[] getUrls() {
         return urls;

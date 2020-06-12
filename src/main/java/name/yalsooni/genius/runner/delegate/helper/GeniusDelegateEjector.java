@@ -13,7 +13,6 @@ import name.yalsooni.genius.runner.repository.DelegateList;
 import name.yalsooni.genius.runner.repository.GeniusClassLoader;
 
 import java.lang.reflect.Method;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -26,10 +25,10 @@ public class GeniusDelegateEjector {
 
     /**
      * 딜리게이트 어노테이션 추출
-     * @param gProperties
-     * @return
+     * @param gProperties 지니어스 프로퍼티
+     * @return DelegateList
      */
-    public DelegateList eject(GeniusProperties gProperties){
+    public DelegateList eject(GeniusProperties gProperties) throws Exception {
 
         DelegateList result = new DelegateList();
         GeniusClassLoader.setUrls(ClassListUtil.getURLArray( fileSearch.getFileList(gProperties.getAnnotationLibRootPath())));
@@ -41,29 +40,24 @@ public class GeniusDelegateEjector {
 
     /**
      * 클래스 검색
-     * @param classMap
-     * @param delegateList
+     * @param classMap classMap
+     * @param delegateList delegateList
      */
     private void classAnalyzer(Map<String, Class<?>> classMap, DelegateList delegateList){
-
-        Iterator<String> keys = classMap.keySet().iterator();
-
-        while(keys.hasNext()){
-            String className = keys.next();
+        for(String className : classMap.keySet()){
             try {
                 Class klass = Class.forName(className, false, GeniusClassLoader.getUrlClassLoader());
                 this.delegateEjector(klass, delegateList);
             } catch (ClassNotFoundException e) {
                 Log.console(e);
-                continue;
             }
         }
     }
 
     /**
      * 딜리게이트 추출 (Delegate 어노테이션 클래스)
-     * @param klass
-     * @param delegateList
+     * @param klass Class
+     * @param delegateList delegateList
      */
     private void delegateEjector(Class klass, DelegateList delegateList){
         if(klass.isAnnotationPresent(Delegate.class)){
@@ -74,7 +68,7 @@ public class GeniusDelegateEjector {
             delegateDTO.setServiceType(delegate.serviceType());
 
             Log.console("Loading Delegate * Project ID : " + delegate.projectID() + ", Service Name : "+delegateDTO.getName()+", Service Type : " + delegate.serviceType());
-            this.entryEjector(delegateDTO, klass, delegateList);
+            this.entryEjector(delegateDTO, klass);
             delegateList.addDelegate(delegateDTO);
             Log.console("["+delegateDTO.getId() + "] "+delegateDTO.getName()+ " loaded.");
         }
@@ -82,11 +76,10 @@ public class GeniusDelegateEjector {
 
     /**
      * 엔트리 추출 (Entry 어노테이션 메소드)
-     * @param delegateDTO
-     * @param klass
-     * @param delegateList
+     * @param delegateDTO DelegateDTO
+     * @param klass Class
      */
-    private void entryEjector(DelegateDTO delegateDTO, Class klass, DelegateList delegateList){
+    private void entryEjector(DelegateDTO delegateDTO, Class klass){
         Method[] methods = klass.getMethods();
 
         for(Method method : methods){

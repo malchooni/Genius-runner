@@ -7,8 +7,15 @@ package name.yalsooni.genius.runner.definition;
  */
 public interface ErrCode {
 
-	String G_003_0001 = "[G-002-0001] 초기화 오류 입니다.";
-	String G_003_0002 = "[G-002-0002] 실행 오류 입니다.";
-	String G_003_0006 = "[G-002-0006] 파라미터 값의 데이터 타입이 유효하지 않습니다.";
+	String GR_INIT = "initialization error.";
+	String GR_I001 = "[GR-I001] not found property files.";
+	String GR_I002 = "[GR-I002] invalid 'ANNOTATION.LIB.ROOT.PATH' property";
+
+	String GR_EXEC = "execution error.";
+	String GR_E001 = "[GR-E001] Invalid Service ID.";
+    String GR_E002 = "[GR-E002] Not found Service ID.";
+    String GR_E003 = "[GR-E003] Invalid entry name.";
+    String GR_E004 = "[GR-E004] Not found entry name.";
+    String GR_E005 = "[GR-E005] Invalid parameter value.";
 
 }

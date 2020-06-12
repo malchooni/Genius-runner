@@ -11,19 +11,19 @@ import java.util.Map;
  */
 public class DelegateList {
 
-    private Map<String, DelegateDTO> list = new HashMap<String, DelegateDTO>();
+    private Map<String, DelegateDTO> list = new HashMap<>();
 
     /**
      * 딜리게이트 목록을 String 배열로 반환한다.
-     * @return
+     * @return delegate list
      */
     public String[] getList(){
-        return list.keySet().toArray(new String[list.size()]);
+        return list.keySet().stream().toArray(n -> new String[n]);
     }
 
     /**
      * 딜리게이트를 추가한다.
-     * @param delegateDTO
+     * @param delegateDTO delegate info
      */
     public void addDelegate(DelegateDTO delegateDTO){
         list.put(delegateDTO.getId(), delegateDTO);
@@ -31,8 +31,8 @@ public class DelegateList {
 
     /**
      * 특정 딜리게이트의 정보를 반환한다.
-     * @param id
-     * @return
+     * @param id delegate id
+     * @return delegate
      */
     public DelegateDTO getDelegateDTO(String id){
         return list.get(id);

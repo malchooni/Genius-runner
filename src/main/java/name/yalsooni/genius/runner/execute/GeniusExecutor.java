@@ -2,17 +2,15 @@ package name.yalsooni.genius.runner.execute;
 
 import name.yalsooni.boothelper.util.Log;
 import name.yalsooni.genius.runner.definition.ErrCode;
+import name.yalsooni.genius.runner.definition.Version;
 import name.yalsooni.genius.runner.definition.property.GeniusProperties;
 import name.yalsooni.genius.runner.delegate.helper.GeniusDelegateEjector;
 import name.yalsooni.genius.runner.delegate.vo.DelegateDTO;
 import name.yalsooni.genius.runner.delegate.vo.EntryDTO;
-import name.yalsooni.genius.runner.exception.InvalidParameterValueTypeException;
 import name.yalsooni.genius.runner.inout.input.InputManager;
 import name.yalsooni.genius.runner.inout.output.OutputManager;
 import name.yalsooni.genius.runner.repository.DelegateList;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -23,111 +21,90 @@ public class GeniusExecutor {
 
     public static final String GENIUS = "GENIUS";
 
-    private GeniusProperties geniusProperties = null;
-    private GeniusDelegateEjector ejector = null;
     private DelegateList delegateList = null;
-
-    private String serviceID = null;
-    private String entryName = null;
-    private String parameterValue = null;
-
     private String[] arguments = null;
-    private final int SERVICE_ID = 0;
-    private final int ENTRY_NAME = 1;
-    private final int PARAMETER_VALUE = 2;
 
     /**
      * 초기화
-     * @param args
-     * @throws Exception
+     * @param args 속성값
      */
     private void initialization(String[] args) throws Exception {
+        Log.console(" - Genius "+ Version.INFO+" Initializing...");
 
-        Log.console(" - Genius v2.0 Initializing...");
+        GeniusProperties geniusProperties = new GeniusProperties();
+        GeniusDelegateEjector ejector = new GeniusDelegateEjector();
+        this.delegateList = ejector.eject(geniusProperties);
+        this.arguments = args;
 
-        try{
-            this.arguments = args;
-            this.geniusProperties = new GeniusProperties();
-            this.ejector = new GeniusDelegateEjector();
-            this.delegateList = this.ejector.eject(this.geniusProperties);
-        }catch (Exception e){
-            throw new Exception(ErrCode.G_003_0001,e);
-        }
-
-        Log.console(" - Genius v2.0 Initialization done.");
+        Log.console(" - Genius "+ Version.INFO+" Initialization done.");
     }
 
     /**
      * 실행
      */
     private void execute() throws Exception {
-        try {
 
-            if(this.arguments == null || this.arguments.length < 1){
-                OutputManager.printDelegateList(this.delegateList);
-                serviceID = InputManager.getServiceID();
-            }else{
-                serviceID = this.arguments[SERVICE_ID];
-            }
+        int SERVICE_ID = 0;
+        int ENTRY_NAME = 1;
+        int PARAMETER_VALUE = 2;
 
-            if(serviceID == null || serviceID.length() != 3){
-                Log.console("Invalid Service ID.");
-                return;
-            }
+        String serviceID;
+        String entryName;
+        String parameterValue;
 
-            DelegateDTO target = this.delegateList.getDelegateDTO(serviceID);
-            if(target == null){
-                Log.console("Not found Service ID.");
-                return;
-            }
-
-            if(this.arguments == null || this.arguments.length < 2){
-                OutputManager.printEntryList(target);
-                entryName = InputManager.getEntryName();
-            }else{
-                entryName = this.arguments[ENTRY_NAME];
-            }
-
-            if(entryName == null || entryName.length() < 1){
-                Log.console("Invalid entry name.");
-                return;
-            }
-
-            EntryDTO targetEntry = target.getEntry(entryName);
-            if(targetEntry == null){
-                Log.console("Not found entry name.");
-                return;
-            }
-
-            Class targetKlass = target.getKlass();
-            Method targetMethod = targetEntry.getMethod();
-
-            if(targetEntry.isParameter()){
-                if(this.arguments == null || this.arguments.length < 3){
-                    OutputManager.printParameters(targetEntry);
-                    parameterValue = InputManager.getParameterValues();
-                }else{
-                    parameterValue = this.arguments[PARAMETER_VALUE];
-                }
-                targetEntry.setParameterValues(parameterValue);
-                targetMethod.invoke(targetKlass.newInstance(), targetEntry.getParameterObject());
-            }else{
-                targetMethod.invoke(targetKlass.newInstance());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InvalidParameterValueTypeException e) {
-            throw e;
+        if(this.arguments == null || this.arguments.length < 1){
+            OutputManager.printDelegateList(this.delegateList);
+            serviceID = InputManager.getServiceID();
+        }else{
+            serviceID = this.arguments[SERVICE_ID];
         }
 
-        Log.console(" - Genius v2.0 Execute done.");
+        if(serviceID == null){
+            Log.console(ErrCode.GR_E001);
+            return;
+        }
+
+        DelegateDTO target = this.delegateList.getDelegateDTO(serviceID);
+        if(target == null){
+            Log.console(ErrCode.GR_E002);
+            return;
+        }
+
+        if(this.arguments == null || this.arguments.length < 2){
+            OutputManager.printEntryList(target);
+            entryName = InputManager.getEntryName();
+        }else{
+            entryName = this.arguments[ENTRY_NAME];
+        }
+
+        if(entryName == null || entryName.length() < 1){
+            Log.console(ErrCode.GR_E003);
+            return;
+        }
+
+        EntryDTO targetEntry = target.getEntry(entryName);
+        if(targetEntry == null){
+            Log.console(ErrCode.GR_E004);
+            return;
+        }
+
+        Class targetKlass = target.getKlass();
+        Method targetMethod = targetEntry.getMethod();
+
+        if(targetEntry.isParameter()){
+            if(this.arguments == null || this.arguments.length < 3){
+                OutputManager.printParameters(targetEntry);
+                parameterValue = InputManager.getParameterValues();
+            }else{
+                parameterValue = this.arguments[PARAMETER_VALUE];
+            }
+            targetEntry.setParameterValues(parameterValue);
+            targetMethod.invoke(targetKlass.newInstance(), targetEntry.getParameterObject());
+        }else{
+            targetMethod.invoke(targetKlass.newInstance());
+        }
+
+        Log.console(" - Genius "+ Version.INFO+" Execute done.");
     }
 
     /**
@@ -139,14 +116,14 @@ public class GeniusExecutor {
         try {
             executor.initialization(args);
         } catch (Exception e) {
-            Log.console(ErrCode.G_003_0001,e);
+            Log.console(ErrCode.GR_INIT,e);
             return;
         }
 
         try {
             executor.execute();
         } catch (Exception e) {
-            Log.console(new Exception(ErrCode.G_003_0002,e));
+            Log.console(ErrCode.GR_EXEC,e);
         }
     }
 }

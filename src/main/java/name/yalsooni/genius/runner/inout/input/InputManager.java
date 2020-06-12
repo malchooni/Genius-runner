@@ -20,8 +20,8 @@ public class InputManager {
 
     /**
      * 서비스아이디를 입력받는다.
-     * @return
-     * @throws IOException
+     * @return service id
+     * @throws IOException input error
      */
     public static String getServiceID() throws IOException {
         Log.console("Please enter service ID.");
@@ -30,8 +30,8 @@ public class InputManager {
 
     /**
      * 엔트리 이름을 입력받는다.
-     * @return
-     * @throws IOException
+     * @return entry name
+     * @throws IOException input error
      */
     public static String getEntryName() throws IOException {
         Log.console("Please enter entry name.");
@@ -40,8 +40,8 @@ public class InputManager {
 
     /**
      * 파라미터값을 입력받는다.
-     * @return
-     * @throws IOException
+     * @return parameter values
+     * @throws IOException input error
      */
     public static String getParameterValues() throws IOException {
         Log.console("Please enter parameter values. Separator is comma. (,)");

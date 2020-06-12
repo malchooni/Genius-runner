@@ -6,20 +6,6 @@ package name.yalsooni.genius.runner.definition;
  *
  */
 public interface Service {
-
 	String RUNTIME 	= "Runtime";
 	String UTIL 	= "Util";
-
-	/**
-	 * 초기화
-	 * @throws Exception
-	 */
-	void initialize() throws Exception;
-	
-	/**
-	 * 실행
-	 * @throws Exception
-	 */
-	void execute() throws Exception;
-	
 }
