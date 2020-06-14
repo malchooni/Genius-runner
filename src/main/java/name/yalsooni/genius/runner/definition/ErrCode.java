@@ -11,6 +11,7 @@ public interface ErrCode {
 	String GR_I001 = "[GR-I001] invalid 'GeniusLibPath' system property.";
     String GR_I002 = "[GR-I002] GeniusClassLoader error.";
     String GR_I003 = "[GR-I003] not found 'GeniusLibPath' directory.";
+    String GR_I004 = "[GR-I004] not found genius-library.";
 
 	String GR_EXEC = "execution error.";
 	String GR_E001 = "[GR-E001] Invalid Service ID.";

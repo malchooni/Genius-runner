@@ -34,6 +34,10 @@ public class GeniusExecutor {
         GeniusProperties geniusProperties = new GeniusProperties();
         GeniusDelegateEjector ejector = new GeniusDelegateEjector();
         this.delegateList = ejector.eject(geniusProperties);
+        if(this.delegateList.getList().length < 1){
+            throw new Exception(ErrCode.GR_I004);
+        }
+
         this.arguments = args;
 
         Log.console(" - Genius "+ Version.INFO+" Initialization done.");
